@@ -7,6 +7,7 @@
     justify-content: space-around;
     align-items: center;
     font-family: 'Poppins', 'Sans-serif';
+    font-weight: 500;
 }
 
 #heading-1{
@@ -31,13 +32,20 @@
   
   .amenities-container {
     display: grid;
-    row-gap: 20px;
+    place-items: center;
+    text-align: center;
+    row-gap: 5em;
     grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
     overflow-x: hidden;
+    padding: 20px;
 }
 
 .amenities-container img {
     width: 100px;
     height: 100px;
+}
+
+.amenities-container h2 {
+    font-weight: 400;
 }
