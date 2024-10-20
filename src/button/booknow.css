@@ -1,0 +1,23 @@
+.btn-booknow {
+    display: flex;
+    justify-content: center;
+    width: 300px;
+    height: auto;
+    text-align: center;
+    border: 3px solid #c6b5a1;
+    border-radius: 6em;
+    padding: 20px;
+    color: #c6b5a1;
+    font-family: 'Poppins', 'Sans-serif';
+    font-weight: 500;
+    font-size: 2em;
+    box-shadow: 0 10px 10px -3px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-booknow:hover {
+    color: #1a1a1a;
+    background-color: #c6b5a1;
+    border-color: #c6b5a1;
+}
+
