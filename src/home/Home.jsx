@@ -3,6 +3,7 @@ import BookNow from '../button/BookNow';
 import "./home.css"
 import SimpleCalendar from "../calendar/Calendar";
 import Amenities from "./Amenities";
+import RoomGallery from './RoomGallery';
 
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
                 </div>
                     <SimpleCalendar />
             </div>
+            
             <Amenities />
         </>
     )

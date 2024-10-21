@@ -37,8 +37,9 @@
     row-gap: 5em;
     grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
     padding: 20px;
+    
 }
 
 .amenities-container img {
