@@ -4,7 +4,7 @@ export default function Amenities() {
   const popUpVariant = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
-  };
+  }
 
   return (
     <div className="amenities">

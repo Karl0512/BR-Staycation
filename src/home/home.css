@@ -13,11 +13,13 @@
 #heading-1{
     font-size: 4em;
     color: #1a1a1a;
+    text-align: start;
 }
 
 #heading-2{
     font-size: 4em;
     color: #c6b5a1;
+    text-align: start;
 }
 
 .amenities {

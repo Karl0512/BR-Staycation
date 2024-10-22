@@ -1,50 +1,160 @@
-// Photos from https://citizenofnowhe.re/lines-of-the-city
 import "./Roomgallery.css"
-import { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-
-// Parallax effect using scroll
-function useParallax(value, distance) {
-  return useTransform(value, [0, 1], [-distance, distance]);
-}
-
-const images = [
-    { src: "/img/car-1.jpg "},
-    { src: "/img/car-2.jpg "},
-    { src: "/img/car-3.jpg "},
-    { src: "/img/car-4.jpg "},
-    { src: "/img/car-5.jpg "},
-]
-
-// Image component
-function Image({ src }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref });
-  const y = useParallax(scrollYProgress, 300);
-
-  return (
-    <section>
-      <div ref={ref}>
-        <img src={src} />
-      </div>
-      <motion.h2 style={{ y }}>{`BR`}</motion.h2>
-    </section>
-  );
-}
+import { animate, motion } from "framer-motion";
 
 export default function RoomGallery() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  const slideInNegative = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0 },
+  }
+
+  const slideInPositive = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0 },
+  }
+
+  const fadeInOut = {
+    hidden: { opacity: 0, scale: 0.5 },
+    visible: { opacity: 1, scale: 1 }
+  }
 
   return (
-    <>
-      {images.map((image, index) => (
-        <Image key={index} src={image.src} />
-      ))}
-    </>
+    <div className="container">
+      <div className="wrapper">
+        <motion.div 
+          variants={slideInNegative}
+          initial="hidden"
+          whileInView="visible"
+          exit="hidden"
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
+          scrollSnapAlign="start"
+        >
+        <img src="/img/car-1.jpg" alt="" />
+        </motion.div>
+        <motion.div
+          variants={fadeInOut}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.5 }}
+          exit="initial"
+          transition={{
+            duration: 1,
+            delay: 0.3,
+            ease: [0, 0.71, 0.2, 1.01]
+          }}
+        >
+        <h1>Cozy</h1>
+        </motion.div>
+      </div>
+      <div className="wrapper">
+      <motion.div
+          variants={fadeInOut}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.5 }}
+          exit="initial"
+          transition={{
+            duration: 1,
+            delay: 0.3,
+            ease: [0, 0.71, 0.2, 1.01]
+          }}
+        >
+        <h1>Refreshing</h1>
+        </motion.div>
+        <motion.div 
+          variants={slideInPositive}
+          initial="hidden"
+          whileInView="visible"
+          exit="hidden"
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
+          scrollSnapAlign="start"
+        >
+        <img src="/img/car-2.jpg" alt="" />
+        </motion.div>
+      </div>
+      <div className="wrapper">
+      <motion.div 
+          variants={slideInNegative}
+          initial="hidden"
+          whileInView="visible"
+          exit="hidden"
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
+          scrollSnapAlign="start"
+        >
+        <img src="/img/car-3.jpg" alt="" />
+        </motion.div>
+        <motion.div
+          variants={fadeInOut}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.5 }}
+          exit="initial"
+          transition={{
+            duration: 1,
+            delay: 0.3,
+            ease: [0, 0.71, 0.2, 1.01]
+          }}
+        >
+        <h1>Refreshing</h1>
+        </motion.div>
+      </div>
+      <div className="wrapper">
+      <motion.div
+          variants={fadeInOut}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.5 }}
+          exit="initial"
+          transition={{
+            duration: 1,
+            delay: 0.3,
+            ease: [0, 0.71, 0.2, 1.01]
+          }}
+        >
+        <h1>Refreshing</h1>
+        </motion.div>
+        <motion.div 
+          variants={slideInPositive}
+          initial="hidden"
+          whileInView="visible"
+          exit="hidden"
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
+          scrollSnapAlign="start"
+        >
+        <img src="/img/car-4.jpg" alt="" />
+        </motion.div>
+      </div>
+      <div className="wrapper">
+      <motion.div 
+          variants={slideInNegative}
+          initial="hidden"
+          whileInView="visible"
+          exit="hidden"
+          viewport={{ once: false, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
+          scrollSnapAlign="start"
+        >
+        <img src="/img/car-5.jpg" alt="" />
+        </motion.div>
+        <motion.div
+          variants={fadeInOut}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.5 }}
+          exit="initial"
+          transition={{
+            duration: 1,
+            delay: 0.3,
+            ease: [0, 0.71, 0.2, 1.01]
+          }}
+        >
+        <h1>Refreshing</h1>
+        </motion.div>
+      </div>
+      
+    </div>
   )
 }
