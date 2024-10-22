@@ -1,6 +1,6 @@
 // SimpleCalendar.js
 import React, { useState } from 'react';
-import "./Calendar.css"
+import "../style/Calendar.css"
 
 export default function SimpleCalendar() {
     const [currentMonth, setCurrentMonth] = useState(new Date());

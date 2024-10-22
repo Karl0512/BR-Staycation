@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import './App.css'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import Navbar from './navbar/Navbar'
-import Home from './home/Home';
-import Gallery from './gallery/Gallery'
-import Book from './book/Book'
-import ContactUs from './contact/ContactUs'
-import Login from './login/Login'
-import Signup from './signup/Signup'
+import Navbar from './components/Navbar'
+import Home from './components/Home';
+import Gallery from './components/Gallery'
+import Book from './components/Book'
+import ContactUs from './components/ContactUs'
+import Login from './components/Login'
+import Signup from './components/Signup'
 
 export default function App() {
   const location = useLocation()

@@ -1,4 +1,4 @@
-import "./Roomgallery.css"
+import "../style/Roomgallery.css"
 import { animate, motion } from "framer-motion";
 
 export default function RoomGallery() {

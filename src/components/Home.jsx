@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import BookNow from '../button/BookNow';
-import "./home.css"
-import SimpleCalendar from "../calendar/Calendar";
+import BookNow from './BookNow';
+import "../style/home.css"
+import SimpleCalendar from "./Calendar";
 import Amenities from "./Amenities";
 import RoomGallery from './RoomGallery';
 import { motion } from 'framer-motion';
