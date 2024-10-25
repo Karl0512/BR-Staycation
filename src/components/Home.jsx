@@ -5,6 +5,8 @@ import SimpleCalendar from "./Calendar";
 import Amenities from "./Amenities";
 import RoomGallery from './RoomGallery';
 import { motion } from 'framer-motion';
+import SlidingImage from './SlidingImage';
+import StackImage from "./StackImage";
 
 
 export default function Home() {
@@ -42,7 +44,7 @@ export default function Home() {
                 </div>
                     <SimpleCalendar />
             </div>
-            <RoomGallery />
+            <StackImage />
             <Amenities />
         </>
     )

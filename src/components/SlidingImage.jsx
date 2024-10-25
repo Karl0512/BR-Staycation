@@ -1,85 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from 'react';
 
-const images = [
-    "/img/car-1.jpg", 
-    "/img/car-2.jpg", 
-    "/img/car-3.jpg", 
-    "/img/car-4.jpg",
-    "/img/car-5.jpg",
-    "/img/car-6.jpg"
-];
+export default function ScrollImageEffect() {
+    const [scrollY, setScrollY] = useState(0);
 
-export default function SlidingImage() {
-  const [index, setIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+    const handleScroll = () => {
+        setScrollY(window.scrollY);
+    };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Start the transition
-      setIsTransitioning(true);
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
-      // Update index after the slide transition duration
-      setTimeout(() => {
-        setIndex((prevIndex) => (prevIndex + 1) % images.length); // Move to the next image
-        setIsTransitioning(false); // End the transition
-      }, 2000); // Match this with the slide duration
-    }, 4000); // Change image every 4 seconds
+    const images = [
+        '/img/car-1.jpg',
+        '/img/car-2.jpg',
+        '/img/car-3.jpg',
+        // Add more image URLs
+    ];
 
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div style={{ display: "flex", justifyContent: "center", borderRadius: "20px", boxShadow: "0 3px 5px 5px rgba(0, 0, 0, 0.5)" }}>
-    <div style={{ 
-        position: "relative", 
-        width: "50vw", 
-        height: "50vh", 
-        overflow: "hidden", 
-        display: "flex", 
-        justifyContent: "center",
-        borderRadius: "20px",
-         }}>
-      <AnimatePresence>
-        {/* Current image */}
-        <motion.div
-          key={index}
-          initial={{ x: 0 }}
-          animate={{ x: 0 }}
-          //exit={{ x: "-100%" }} // Slide out to the left
-          transition={{ duration: 1, ease: "easeInOut" }}
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            backgroundImage: `url(${images[index]})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            borderRadius: "20px",
-          }}
-        />
-        
-        {/* Next image */}
-        {isTransitioning && (
-          <motion.div
-            key={(index + 1) % images.length} // This ensures the next image key is correctly set
-            initial={{ x: "100%" }} // Start off-screen to the right
-            animate={{ x: 0 }}      // Slide in to the center
-            //exit={{ x: "100%" }}    // Optional exit to the right
-            transition={{ duration: 1, ease: "easeInOut" }}
-            style={{
-
-              width: "100%",
-              height: "100%",
-              backgroundImage: `url(${images[(index + 1) % images.length]})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              borderRadius: "20px",
-            }}
-          />
-        )}
-      </AnimatePresence>
-    </div>
-    </div>
-  );
+    return (
+        <div className='image-slide' style={{ height: `${images.length * 100}vh`, overflow: 'hidden', position: 'relative' }}>
+            {images.map((image, index) => (
+                <div key={index} style={{
+                    position: 'absolute',
+                    top: `${index * 100}vh`,
+                    left: 0,
+                    right: 0,
+                    height: '100vh',
+                    backgroundImage: `url(${image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    transform: `translateY(-${scrollY}px)`,
+                    transition: 'transform 0.2s ease',
+                }}>
+                </div>
+            ))}
+        </div>
+    );
 }

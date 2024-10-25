@@ -1,4 +1,6 @@
-.slideshow-container img {
-    width: 800px;
-    height: 600px;
+.image-slide {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.2s ease;
 }
