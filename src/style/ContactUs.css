@@ -1,0 +1,124 @@
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  background-color: #fff;
+}
+
+h1,
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+/* Contact Options Section */
+.contact-options {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.contact-option {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  margin: 0 20px;
+}
+
+.contact-option h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.contact-option p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.btn {
+  background-color: #c6b5a1;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #ff3300;
+}
+
+/* Contact Icons Placeholder */
+.contact-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+}
+
+.phone-icon {
+  background-image: url("/path/to/phone-icon.png");
+  background-size: contain;
+}
+
+.case-icon {
+  background-image: url("/path/to/case-icon.png");
+  background-size: contain;
+}
+
+.chat-icon {
+  background-image: url("/path/to/chat-icon.png");
+  background-size: contain;
+}
+
+/* Track a Case Section */
+.track-case {
+  text-align: center;
+}
+
+.track-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.track-form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.track-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.track-form button {
+  display: block;
+  width: 100%;
+  background-color: #c6b5a1;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.track-form button:hover {
+  background-color: #ff3300;
+}

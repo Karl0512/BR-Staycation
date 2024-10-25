@@ -1,0 +1,6 @@
+.image-slide {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.2s ease;
+}

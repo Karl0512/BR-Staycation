@@ -1,0 +1,45 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin-left: 350px;
+    font-family: 'poppins', 'sans-serif';
+    font-weight: 500;
+}
+
+/* Style for the Dashboard content */
+.dashboard-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 50px;
+    width: 100%;
+    padding: 20px;
+}
+
+.dashboard-table {
+    margin-left: 350px;
+    padding: 20px;
+    font-family: 'poppins', 'sans-serif';
+}
+
+.dashboard-overview-table, .dashboard-overview-table th, .dashboard-overview-table td {
+    border: 3px solid #c6b5a1;
+    border-collapse: collapse;
+}
+
+.dashboard-overview-table {
+    width: 100%;
+}
+
+.dashboard-overview-table th {
+    background-color: #c6b5a1;
+}
+
+.dashboard-overview-table th, .dashboard-overview-table td {
+    padding: 20px;
+}
+
+
+
+
