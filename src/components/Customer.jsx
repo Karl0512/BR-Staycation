@@ -1,5 +1,6 @@
 import SideNav from "./SideNav";
 import { Link } from 'react-router-dom';
+import "../style/customer.css"
 
 export default function Customer() {
     return (
@@ -7,6 +8,7 @@ export default function Customer() {
             <SideNav />
             <div className="dashboard-container">
                 <h1>Overview</h1>
+                <li><Link>+ Add Booking</Link></li>
 
             </div>
             <div className="dashboard-table">

@@ -43,7 +43,6 @@ export default function Dashboard() {
         <div className="dashboard-container">
             <div className="dashboard-content">
                 <h1>Overview</h1>
-                <li><Link>+ Add Booking</Link></li>
             </div>
             
         </div>
