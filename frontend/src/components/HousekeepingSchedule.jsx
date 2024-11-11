@@ -6,6 +6,7 @@ export default function HousekeepingSchedule() {
   const [housekeepingSchedule, setHousekeepingSchedule] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [paidBookings, setPaidBookings] = useState([]);
+  const [createdHousekeeping, setCreatedHousekeeping] = useState([]);
 
   useEffect(() => {
     const fetchHousekeepingSchedule = async () => {
@@ -22,7 +23,7 @@ export default function HousekeepingSchedule() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/bookings");
-        setBookings(response.data); // Make sure to set the full response, not just `status`
+        setBookings(response.data); // Ensure to set the full response, not just `status`
       } catch (error) {
         console.error("Error fetching bookings: ", error);
       }
@@ -46,30 +47,60 @@ export default function HousekeepingSchedule() {
   }, [bookings]);
 
   useEffect(() => {
+    // Retrieve created housekeeping from localStorage
+    const storedCreatedHousekeeping = JSON.parse(
+      localStorage.getItem("createdHousekeeping") || "[]"
+    );
+    setCreatedHousekeeping(storedCreatedHousekeeping);
+
     const createHousekeepingSchedule = async () => {
       if (paidBookings.length > 0) {
         for (let booking of paidBookings) {
-          try {
-            const housekeepingData = {
-              bookingId: booking._id,
-              roomId: booking.roomId,
-              dateToBeCleaned: booking.endDate,
-            };
-            const response = await axios.post(
-              "http://localhost:5000/api/housekeeping",
-              housekeepingData
-            );
-            console.log("Housekeeping created for booking ID:", booking._id);
-          } catch (error) {
-            console.error(
-              "Error creating housekeeping for booking ID:",
-              booking._id,
-              error
+          // Check if housekeeping is already created for the booking
+          if (!storedCreatedHousekeeping.includes(booking._id)) {
+            try {
+              const housekeepingData = {
+                bookingId: booking._id,
+                roomId: booking.roomId,
+                dateToBeCleaned: booking.endDate,
+              };
+
+              // Make sure housekeeping is only created once for a booking
+              const response = await axios.post(
+                "http://localhost:5000/api/housekeeping",
+                housekeepingData
+              );
+
+              console.log("Housekeeping created for booking ID:", booking._id);
+
+              // After successful creation, add the booking ID to the createdHousekeeping state
+              const newCreatedHousekeeping = [
+                ...storedCreatedHousekeeping,
+                booking._id,
+              ];
+              setCreatedHousekeeping(newCreatedHousekeeping);
+
+              // Save updated createdHousekeeping in localStorage
+              localStorage.setItem(
+                "createdHousekeeping",
+                JSON.stringify(newCreatedHousekeeping)
+              );
+            } catch (error) {
+              console.error(
+                "Error creating housekeeping for booking ID:",
+                booking._id,
+                error
+              );
+            }
+          } else {
+            console.log(
+              `Housekeeping already created for booking ID: ${booking._id}`
             );
           }
         }
       }
     };
+
     createHousekeepingSchedule();
   }, [paidBookings]);
 

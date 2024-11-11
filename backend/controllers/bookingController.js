@@ -31,8 +31,8 @@ const createBooking = async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: "",
-        pass: ""
+        user: "siaa311dash5@gmail.com",
+        pass: "ukre vhii frzs oylm"
       }
      })
 
