@@ -1,0 +1,65 @@
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'poppins', 'sans-serif';
+    background-color: #FAF9F6;
+}
+
+.signup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.signup-wrapper {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 50px 20px 50px 20px;
+    width: 40vw;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    box-shadow: 0 3px 5px 5px rgba(0, 0, 0, 0.5);
+    height: 90vh;
+    gap: 50px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 50%;
+}
+
+.form input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: #FAF9F6;
+    color: #1a1a1a;
+}
+
+.id-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.id-wrapper label {
+    width: 40%;
+}
+
+.id-wrapper input[type="file"] {
+    width: 60%;
+}
+
+
+.btn-reg {
+    
+}

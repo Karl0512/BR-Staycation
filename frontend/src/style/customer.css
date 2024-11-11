@@ -1,0 +1,39 @@
+.dashboard-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.dashboard-container li a {
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #c6b5a1;
+    border-radius: 30px;
+}
+
+.overlay {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.add-booking-form {
+    width: 50%;
+    height: 100%;
+    background-color: white;
+}
+
+.add-booking-btn {
+    transition: all 0.5s ease-in-out;
+}
+.add-booking-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.8;   
+}
