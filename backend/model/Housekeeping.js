@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 
 const housekeepingScheduleSchema = new Schema(
     {
+      bookingId: { type: String },
       roomId: { type: Number }, 
-      dateToBeCleaned: { type: Date }
+      dateToBeCleaned: { type: String },
     },
     { timestamps: true }
   )

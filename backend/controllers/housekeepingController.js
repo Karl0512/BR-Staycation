@@ -1,11 +1,10 @@
 const Housekeeping = require('../model/Housekeeping'); // Adjust the path as necessary
 
 // Create a new Housekeeping
-const createHouekeeping = async (req, res) => {
-    const { endDate } = req.body
+const createHousekeeping = async (req, res) => {
   try {
-    const Housekeeping = await Housekeeping.create(req.body);
-    res.status(201).json(Housekeeping);
+    const housekeeping = await Housekeeping.create(req.body);
+    res.status(201).json(housekeeping);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -14,8 +13,8 @@ const createHouekeeping = async (req, res) => {
 // Get all Housekeepings
 const getHousekeepings = async (req, res) => {
   try {
-    const Housekeepings = await Housekeeping.find({});
-    res.status(200).json(Housekeepings);
+    const housekeeping = await Housekeeping.find({});
+    res.status(200).json(housekeeping);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -25,11 +24,11 @@ const getHousekeepings = async (req, res) => {
 const getHousekeeping= async (req, res) => {
   const { id } = req.params;
   try {
-    const Housekeeping = await Housekeeping.findById(id);
-    if (!Housekeeping) {
+    const housekeeping = await Housekeeping.findById(id);
+    if (!housekeeping) {
       return res.status(404).json({ error: 'Housekeeping not found' });
     }
-    res.status(200).json(Housekeeping);
+    res.status(200).json(housekeeping);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -39,11 +38,11 @@ const getHousekeeping= async (req, res) => {
 const updateHousekeeping= async (req, res) => {
   const { id } = req.params;
   try {
-    const Housekeeping = await Housekeeping.findByIdAndUpdate(id, req.body, { new: true });
-    if (!Housekeeping) {
+    const housekeeping = await Housekeeping.findByIdAndUpdate(id, req.body, { new: true });
+    if (!housekeeping) {
       return res.status(404).json({ error: 'Housekeeping not found' });
     }
-    res.status(200).json(Housekeeping);
+    res.status(200).json(housekeeping);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -53,8 +52,8 @@ const updateHousekeeping= async (req, res) => {
 const deleteHousekeeping= async (req, res) => {
   const { id } = req.params;
   try {
-    const Housekeeping = await Housekeeping.findByIdAndDelete(id);
-    if (!Housekeeping) {
+    const housekeeping = await Housekeeping.findByIdAndDelete(id);
+    if (!housekeeping) {
       return res.status(404).json({ error: 'Housekeeping not found' });
     }
     res.status(200).json({ message: 'Housekeeping deleted' });
@@ -64,7 +63,7 @@ const deleteHousekeeping= async (req, res) => {
 };
 
 module.exports = {
-    createHouekeeping,
+  createHousekeeping,
   getHousekeepings,
   getHousekeeping,
   updateHousekeeping,

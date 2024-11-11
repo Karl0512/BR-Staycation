@@ -49,44 +49,45 @@ const BookingPage = () => {
   useEffect(() => {
     const fetchNameById = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/users/${userId}`);
-        setName(response.data.name);  // Store the fetched name in state
-        setEmail(response.data.email)
-        console.log(email)
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${userId}`
+        );
+        setName(response.data.name); // Store the fetched name in state
+        setEmail(response.data.email);
+        console.log(email);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
-  
-    fetchNameById();
-  }, []);  // Empty dependency array so it runs once when the component mounts
-  
 
-  
-  
+    fetchNameById();
+  }, []); // Empty dependency array so it runs once when the component mounts
+
   // Handle booking submission
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
-      const bookingData = {
-        startDate,
-        endDate,
-        guests,
-        roomId,
-        name,
-        email
-      };
-  
-      try {
-        const response = await axios.post("http://localhost:5000/api/bookings", bookingData);
-        setSuccessMessage("Booking successful!");
-        setError("");
-      } catch (err) {
-        setError(err.response ? err.response.data.error : "Booking failed");
-        setSuccessMessage("");
-      }
+    const bookingData = {
+      startDate,
+      endDate,
+      guests,
+      roomId,
+      name,
+      email,
+      time,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/bookings",
+        bookingData
+      );
+      setSuccessMessage("Booking successful!");
+      setError("");
+    } catch (err) {
+      setError(err.response ? err.response.data.error : "Booking failed");
+      setSuccessMessage("");
+    }
   };
-  
-  
 
   // Update startDate and endDate when calendar selection changes
   useEffect(() => {
@@ -99,10 +100,22 @@ const BookingPage = () => {
 
   return (
     <div>
-      <h1><center>Book Your Stay<br></br> {name}</center></h1>
+      <h1>
+        <center>
+          Book Your Stay<br></br> {name}
+        </center>
+      </h1>
 
       {/* Booking Form */}
-      <form onSubmit={handleBookingSubmit} style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+      <form
+        onSubmit={handleBookingSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Calendar
           style={{ width: "100%" }}
           selected={selected}

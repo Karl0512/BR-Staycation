@@ -5,7 +5,7 @@ require("dotenv").config()
 
 // Create a new Booking
 const createBooking = async (req, res) => {
-  const { startDate, endDate, roomId, guests, name, email } = req.body;
+  const { startDate, endDate, roomId, guests, name, email, time } = req.body;
   const startDateOnly = new Date(startDate).toLocaleDateString();
   const endDateOnly = new Date(endDate).toLocaleDateString();
 
@@ -22,6 +22,7 @@ const createBooking = async (req, res) => {
       guests,
       roomId,
       name,
+      time
     });
 
     //email send
@@ -42,8 +43,9 @@ const createBooking = async (req, res) => {
       text: `Hello ${name}, \n\n
       Your booking is confirmed please pay the required 50% downpayment \n\n
       Room no: ${roomId} \n\n
-      Check-in: ${startDate} \n\n
-      Check-out: ${endDate}
+      Check-in: ${startDateOnly} \n\n
+      Check-out: ${endDateOnly}\n\n
+      Check-out: ${time}
       `
      }
 

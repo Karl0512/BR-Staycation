@@ -78,6 +78,7 @@ export default function Customer() {
       roomId,
       name,
       email,
+      time,
     };
 
     try {
@@ -108,7 +109,17 @@ export default function Customer() {
       <div className="dashboard-container">
         <h1>Overview</h1>
         <div style={{ marginTop: "10px" }} onClick={toggleElement}>
-          <h1 className="add-booking-btn"  style={{ cursor: "pointer", borderRadius: "25px", backgroundColor: "#c6b5a1", padding: "10px" }}>+ Add Booking</h1>
+          <h1
+            className="add-booking-btn"
+            style={{
+              cursor: "pointer",
+              borderRadius: "25px",
+              backgroundColor: "#c6b5a1",
+              padding: "10px",
+            }}
+          >
+            + Add Booking
+          </h1>
           {showElement && (
             <div className="overlay" onClick={closeOverlay}>
               <div
