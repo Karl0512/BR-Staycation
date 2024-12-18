@@ -21,3 +21,18 @@
     border-color: #c6b5a1;
 }
 
+.h1-book {
+    font-family: 'Poppins', 'Sans-serif';
+    font-weight: 500;
+    font-size: 2em;
+}
+
+.label-time {
+    font-family: 'Poppins', 'Sans-serif';
+    font-weight: 500;
+}
+
+.label-guest {
+    font-family: 'Poppins', 'Sans-serif';
+    font-weight: 500;
+}

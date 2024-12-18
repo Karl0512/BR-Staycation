@@ -1,125 +1,78 @@
-const Booking = require("../model/Booking"); // Adjust the path as necessary
-const nodemailer = require("nodemailer")
+const Booking = require("../model/Booking"); // Import the Sequelize model
 
-require("dotenv").config()
-
-// Create a new Booking
+// Create a new booking
 const createBooking = async (req, res) => {
-  const { startDate, endDate, roomId, guests, name, email, time } = req.body;
-  const startDateOnly = new Date(startDate).toLocaleDateString();
-  const endDateOnly = new Date(endDate).toLocaleDateString();
-
+  console.log("Request received:", req.body);
+  
   try {
-    // Check for missing fields first
-    if (!startDate || !endDate || !roomId || !guests || !name || !email) {
-      return res.status(400).json({ error: "All fields are required." });
-    }
-    
-    // Create the booking
-    const booking = await Booking.create({
-      startDate: startDateOnly,
-      endDate: endDateOnly,
-      guests,
-      roomId,
-      name,
-      time
-    });
-
-    //email send
-     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: "siaa311dash5@gmail.com",
-        pass: "ukre vhii frzs oylm"
-      }
-     })
-
-     const mailOptions = {
-      from: 'Br Staycation <no-reply@brstaycation.com>',
-      to: `${email}`,
-      subject: "Booking Confirmation",
-      text: `Hello ${name}, \n\n
-      Your booking is confirmed please pay the required 50% downpayment \n\n
-      Room no: ${roomId} \n\n
-      Check-in: ${startDateOnly} \n\n
-      Check-out: ${endDateOnly}\n\n
-      Check-out: ${time}
-      `
-     }
-
-     const info = await transporter.sendMail(mailOptions)
-
-     console.log("Message sent: %s", info.message)
-     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
-
-
-    // Respond with the created booking
+    const booking = await Booking.create(req.body);
     res.status(201).json(booking);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error creating booking:", error);
+    res.status(500).json({ error: "Failed to create booking" });
   }
 };
 
-
-
-
-// Get all Bookings
+// Get all bookings
 const getBookings = async (req, res) => {
+  const { roomId } = req.query;
+
   try {
-    const Bookings = await Booking.find({});
-    res.status(200).json(Bookings);
+    const bookings = roomId
+      ? await Booking.findAll({ where: { roomId } })
+      : await Booking.findAll();
+    res.status(200).json(bookings);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching bookings:", error);
+    res.status(500).json({ error: "Failed to fetch bookings" });
   }
 };
 
-// Get a single Booking
+// Get a single booking by ID
 const getBooking = async (req, res) => {
-  const { id } = req.params;
   try {
-    const booking = await Booking.findById(id);
-    if (!Booking) {
+    const booking = await Booking.findByPk(req.params.id);
+    if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
     }
     res.status(200).json(booking);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching booking:", error);
+    res.status(500).json({ error: "Failed to fetch booking" });
   }
 };
 
-// Update a Booking
+// Update a booking
 const updateBooking = async (req, res) => {
-  const { id } = req.params;
-
-  const updateFields = { status: req.body.status };
   try {
-    const booking = await Booking.findByIdAndUpdate(id, updateFields, req.body, { new: true });
+    const booking = await Booking.findByPk(req.params.id);
     if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
     }
+    await booking.update(req.body);
     res.status(200).json(booking);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error updating booking:", error);
+    res.status(500).json({ error: "Failed to update booking" });
   }
 };
 
-// Delete a Booking
+// Delete a booking
 const deleteBooking = async (req, res) => {
-  const { id } = req.params;
-  console.log("Booking ID received for update:", id)
   try {
-    const booking = await Booking.findByIdAndDelete(id);
+    const booking = await Booking.findByPk(req.params.id);
     if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
     }
-    res.status(200).json({ message: "Booking deleted" });
+    await booking.destroy();
+    res.status(200).json({ message: "Booking deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error deleting booking:", error);
+    res.status(500).json({ error: "Failed to delete booking" });
   }
 };
 
+// Export all controller functions
 module.exports = {
   createBooking,
   getBookings,

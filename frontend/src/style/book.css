@@ -1,0 +1,112 @@
+.container-book {
+    display: flex;
+    flex-direction: row;
+}
+
+.time-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 10px; /* Space between the buttons */
+    row-gap: 30px;
+  }
+  
+  
+  .time-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .time-button:hover {
+    background-color: #ddd;
+  }
+  
+  .time-button.active {
+    background-color: #c6b5a1;
+    color: #fff;
+    border-color: #c6b5a1;
+  }
+
+  .calendar {
+    width: 500px;
+  }
+
+  .time {
+    width: 300px;
+  }
+
+  .form-book {
+    display: flex;
+    flex-direction: row; /* Arrange in a row */
+    justify-content: space-evenly; /* Space between items */
+    align-items: center; /* Align items to the top */
+    gap: 10px; /* Space between calendar and time divs */
+    width: 100%; /* Ensure it spans the parent width */
+  }
+
+  .rate-button {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Style for the modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    display: block;
+  }
+  
+  .btn-modal {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #c6b5a1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-modal:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .input {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .btn-book{
+    padding: 10px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .btn-book:hover {
+    background-color: #c6b5a1;
+  }

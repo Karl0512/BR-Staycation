@@ -1,7 +1,7 @@
 import SideNav from "./SideNav";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../style/payment.css"
+import "../style/payment.css";
 
 export default function PaymentInvoices() {
   const [bookings, setBooking] = useState("");
@@ -31,7 +31,7 @@ export default function PaymentInvoices() {
       await axios.patch(
         `http://localhost:5000/api/bookings/${selectedBookingId}`,
         {
-            status: "paid",
+          status: "paid",
         }
       );
 
@@ -56,18 +56,30 @@ export default function PaymentInvoices() {
       <SideNav />
       <div className="dashboard-table">
         <div style={{ display: "flex", padding: "20px", alignItems: "center" }}>
-            <label style={{ marginRight: "25px" }}>Booking Id to be paid:</label>
-            <input style={{ marginRight: "25px", width: "11.5%" }} type="text" value={selectedBookingId} />
+          <label style={{ marginRight: "25px" }}>Booking Id to be paid:</label>
+          <input
+            style={{ marginRight: "25px", width: "11.5%" }}
+            type="text"
+            value={selectedBookingId}
+          />
           <button
-          style={{ paddingLeft: "25px", paddingRight: "25px", paddingTop: "10px", paddingBottom: "10px", backgroundColor: "#c6b5a1", border: "none", borderRadius: "25px" }}
-          onClick={markAsPaid}
-          disabled={!selectedBookingId}
-          className="mark-paid-button"
-        >
-          paid
-        </button>  
+            style={{
+              paddingLeft: "25px",
+              paddingRight: "25px",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              backgroundColor: "#c6b5a1",
+              border: "none",
+              borderRadius: "25px",
+            }}
+            onClick={markAsPaid}
+            disabled={!selectedBookingId}
+            className="mark-paid-button"
+          >
+            paid
+          </button>
         </div>
-        
+
         <table className="dashboard-overview-table">
           <tr>
             <th>Booking ID</th>

@@ -16,16 +16,16 @@ export default function HousekeepingSchedule() {
         );
         setHousekeepingSchedule(response.data);
       } catch (error) {
-        console.error("Error fetching housekeeping schedule: ", error);
+        console.error("Error fetching housekeeping schedule:", error);
       }
     };
 
     const fetchBookings = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/bookings");
-        setBookings(response.data); // Ensure to set the full response, not just `status`
+        setBookings(response.data);
       } catch (error) {
-        console.error("Error fetching bookings: ", error);
+        console.error("Error fetching bookings:", error);
       }
     };
 
@@ -47,7 +47,6 @@ export default function HousekeepingSchedule() {
   }, [bookings]);
 
   useEffect(() => {
-    // Retrieve created housekeeping from localStorage
     const storedCreatedHousekeeping = JSON.parse(
       localStorage.getItem("createdHousekeeping") || "[]"
     );
@@ -55,9 +54,11 @@ export default function HousekeepingSchedule() {
 
     const createHousekeepingSchedule = async () => {
       if (paidBookings.length > 0) {
-        for (let booking of paidBookings) {
-          // Check if housekeeping is already created for the booking
-          if (!storedCreatedHousekeeping.includes(booking._id)) {
+        const newCreatedHousekeeping = [...createdHousekeeping];
+
+        const housekeepingPromises = paidBookings
+          .filter((booking) => !newCreatedHousekeeping.includes(booking._id))
+          .map(async (booking) => {
             try {
               const housekeepingData = {
                 bookingId: booking._id,
@@ -65,26 +66,13 @@ export default function HousekeepingSchedule() {
                 dateToBeCleaned: booking.endDate,
               };
 
-              // Make sure housekeeping is only created once for a booking
-              const response = await axios.post(
+              await axios.post(
                 "http://localhost:5000/api/housekeeping",
                 housekeepingData
               );
-
               console.log("Housekeeping created for booking ID:", booking._id);
 
-              // After successful creation, add the booking ID to the createdHousekeeping state
-              const newCreatedHousekeeping = [
-                ...storedCreatedHousekeeping,
-                booking._id,
-              ];
-              setCreatedHousekeeping(newCreatedHousekeeping);
-
-              // Save updated createdHousekeeping in localStorage
-              localStorage.setItem(
-                "createdHousekeeping",
-                JSON.stringify(newCreatedHousekeeping)
-              );
+              newCreatedHousekeeping.push(booking._id);
             } catch (error) {
               console.error(
                 "Error creating housekeeping for booking ID:",
@@ -92,16 +80,21 @@ export default function HousekeepingSchedule() {
                 error
               );
             }
-          } else {
-            console.log(
-              `Housekeeping already created for booking ID: ${booking._id}`
-            );
-          }
-        }
+          });
+
+        await Promise.all(housekeepingPromises);
+
+        setCreatedHousekeeping(newCreatedHousekeeping);
+        localStorage.setItem(
+          "createdHousekeeping",
+          JSON.stringify(newCreatedHousekeeping)
+        );
       }
     };
 
-    createHousekeepingSchedule();
+    if (paidBookings.length > 0) {
+      createHousekeepingSchedule();
+    }
   }, [paidBookings]);
 
   return (

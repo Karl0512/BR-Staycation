@@ -5,15 +5,14 @@ const {
   getBooking,
   updateBooking,
   deleteBooking,
-} = require('../controllers/bookingController'); // Adjust the path as necessary
+} = require('../controllers/bookingController'); // Ensure the path is correct
 
 const router = express.Router();
 
-// Define the routes
-router.post('/', createBooking);
-router.get('/', getBookings);             // Get all users
-router.get('/:id', getBooking);           // Get a single user
-router.patch('/:id', updateBooking);      // Update a user
-router.delete('/:id', deleteBooking);     // Delete a user
+router.post('/', createBooking);         // Create a new booking
+router.get('/', getBookings);            // Get all bookings
+router.get('/:id', getBooking);          // Get a booking by ID
+router.patch('/:id', updateBooking);     // Update a booking
+router.delete('/:id', deleteBooking);    // Delete a booking
 
 module.exports = router;

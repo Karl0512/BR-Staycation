@@ -1,10 +1,10 @@
-const User = require('../model/Rooms'); // Adjust the path as necessary
+const Rooms = require('../model/Rooms'); // Adjust the path as necessary
 
 // Create a new user
 const createRooms = async (req, res) => {
   try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
+    const rooms = await Rooms.create(req.body);
+    res.status(201).json(rooms);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -13,8 +13,8 @@ const createRooms = async (req, res) => {
 // Get all users
 const getRooms = async (req, res) => {
   try {
-    const users = await User.find({});
-    res.status(200).json(users);
+    const rooms = await Rooms.findAll({});
+    res.status(200).json(rooms);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -22,10 +22,9 @@ const getRooms = async (req, res) => {
 
 // Get a single user
 const getRoom = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await User.findById(id);
-    if (!user) {
+    const rooms = await Rooms.findByPk(req.params.id);
+    if (!rooms) {
       return res.status(404).json({ error: 'User not found' });
     }
     res.status(200).json(user);
@@ -36,13 +35,13 @@ const getRoom = async (req, res) => {
 
 // Update a user
 const updateRoom = async (req, res) => {
-  const { id } = req.params;
+
   try {
-    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
-    if (!user) {
+    const rooms = await Rooms.findByPk(req.params.id);
+    if (!rooms) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.status(200).json(user);
+    res.status(200).json(rooms);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -50,10 +49,9 @@ const updateRoom = async (req, res) => {
 
 // Delete a user
 const deleteRoom = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await User.findByIdAndDelete(id);
-    if (!user) {
+    const rooms = await Rooms.findByPk(req.params.id);
+    if (!rooms) {
       return res.status(404).json({ error: 'User not found' });
     }
     res.status(200).json({ message: 'User deleted' });

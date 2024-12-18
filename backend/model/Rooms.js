@@ -1,12 +1,15 @@
-const mongoose = require('mongoose');
+// models/room.js
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
 
-const Schema = mongoose.Schema;
+const Room = sequelize.define('Room', {
+  roomId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+}, {
+  timestamps: true,
+});
 
-const roomSchema = new Schema(
-    {
-      roomNumber: { type: String, required: true, unique: true },
-      price: { type: Number, required: true },
-    },
-    { timestamps: true }
-  )
-  module.exports = mongoose.model('Room', roomSchema)
+module.exports = Room;

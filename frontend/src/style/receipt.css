@@ -1,0 +1,103 @@
+.receipt {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20rem;
+}
+
+.payment-method {
+    display: block;
+}
+
+.payment-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.cash {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid hsla(0, 0%, 0%, 0.25);
+}
+
+#cash {
+    width: 50px;
+}
+
+.online {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid hsla(0, 0%, 0%, 0.25);
+}
+
+#online-payment {
+    width: 50px;
+}
+
+#br-logo {
+    width: 50px;
+}
+
+/* Hide the default radio buttons */
+input[type="radio"] {
+    display: none;
+  }
+  
+  /* Style the payment options container */
+  .payment-option {
+    display: flex;
+    gap: 20px; /* Space between options */
+  }
+  
+  /* Style for each payment option */
+  .option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+  
+  /* Hover effect */
+  .option:hover {
+    border-color: #c6b5a1;
+  }
+  
+  /* Highlight selected option */
+  .option.selected {
+    border-color: #c6b5a1;
+    background-color: #f8f4f0;
+  }
+  
+  /* Image inside option */
+  .option img {
+    width: 50px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 8px;
+  }
+  
+  /* Label styling */
+  .option label {
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  /* Text styling */
+  .option p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
