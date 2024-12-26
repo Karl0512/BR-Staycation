@@ -1,3 +1,4 @@
+// IIMPORT MGA KAILNGAN
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Calendar } from "@demark-pro/react-booking-calendar";
@@ -8,7 +9,9 @@ import moment from "moment-timezone";
 
 const weekDays = [0, 1, 2];
 
+// IPASA YUNG DATA FROM ROOM COMPONENT
 const BookingPage = ({ room }) => {
+  // I DECLARE MGA KAILANGAN
   const navigate = useNavigate();
   const [selected, setSelected] = useState([]); // For calendar selection
   const [reserved, setReserved] = useState([]); // For reserved dates
@@ -17,11 +20,11 @@ const BookingPage = ({ room }) => {
   const [time, setTime] = useState("");
   const [price, setPrice] = useState("");
   const [guests, setGuests] = useState("1");
-  const [rooms, setRooms] = useState([]); // To store fetched rooms
-  const [roomId, setRoomId] = useState(""); // To store selected room
+  //const [rooms, setRooms] = useState([]); // To store fetched rooms
+  //const [roomId, setRoomId] = useState(""); // To store selected room
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const userId = localStorage.getItem("token");
+  //const userId = localStorage.getItem("token");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -29,12 +32,12 @@ const BookingPage = ({ room }) => {
   const [term1Accepted, setTerm1Accepted] = useState(false);
   const [term2Accepted, setTerm2Accepted] = useState(false);
 
-  // Handle opening the modal
+  // Handle opening the modal, ETO YUNG PAG BUKAS NG POPUP
   const handleModalOpen = () => {
     setShowModal(true);
   };
 
-  // Handle closing the modal
+  // Handle closing the modal, ETO YUNG PAG CLOSE NG POPUP
   const handleModalClose = () => {
     setShowModal(false);
   };
@@ -53,6 +56,7 @@ const BookingPage = ({ room }) => {
 
   //const isAcceptEnabled = termsAccepted && bookingAccepted;
 
+  // ETO YUNG MGA AVAILABLE TIME NAKA ARRAY
   const availableTimes = [
     "08:00 AM",
     "09:00 AM",
@@ -63,32 +67,37 @@ const BookingPage = ({ room }) => {
     "02:00 PM",
   ];
 
+  // SAME SA RATES NAKA ARRAY DIN MAY LABEL AND VALUE
   const rates = [
     { label: 8, value: "1000" },
     { label: 12, value: "1200" },
     { label: 22, value: "1700" },
   ];
 
-  // Fetch reserved dates for calendar
+  // KUNIN YUNG MGA BOOKED DATES GALING SA DATABASE ILAGAY SA CALENDAR
   useEffect(() => {
-    console.log(room);
+    //console.log(room);
     const fetchReservedDates = async () => {
       try {
         const response = await axios.get(
           `http://localhost:5000/api/bookings?roomId=${room}`
         );
+        // I MAP YUNG DATA KUNIN LANG YUNG startDate AT endDate
         const formattedReservedDates = response.data.map((reservation) => ({
           startDate: reservation.startDate,
           endDate: reservation.endDate,
         }));
+
+        // ILAGAY SA setReserved DAHIL YAN YUNG HINIHINGI NG COMPONENT
         setReserved(formattedReservedDates);
       } catch (error) {
         console.error("Error fetching reserved dates:", error);
       }
     };
 
+    // TAWAGIN YUNG FUNCTION PARA GUMANA
     fetchReservedDates();
-    console.log(reserved);
+    //console.log(reserved);
   }, []);
 
   /*useEffect(() => {
@@ -108,17 +117,20 @@ const BookingPage = ({ room }) => {
     fetchNameById();
   }, []);*/ // Empty dependency array so it runs once when the component mounts
 
-  // Handle booking submission
+  // ETO YUNG MANGYAYARI PAG KA PININDOT NG USER BOOK NOW
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
-    console.log(startDate);
+    /*console.log(startDate);
     console.log(endDate);
     console.log(reserved);
-    console.log(selected);
+    console.log(selected);*/
 
+    // UNA I VALIDATE KUNG LAHAT BA MERON LAMANG YUNG MGA NECESSARY NA DATA
     if (!startDate || !endDate || !guests || !time) {
+      // PAG KA WALANG LAMAN ISA MAG SEND NG ERROR NA I FILL OUT LAHAT
       setSuccessMessage("fill out all the forms!");
     } else {
+      // KUNG WALA NAMANG KULANG I FORMAT YUNG STARTDATE AT ENDDATE OBJECT PA STRING
       const formattedStartDate = moment(startDate)
         .tz("Asia/Singapore")
         .format("YYYY-MM-DD");
@@ -126,6 +138,7 @@ const BookingPage = ({ room }) => {
         .tz("Asia/Singapore")
         .format("YYYY-MM-DD");
 
+      // GUMAWA NG OBJECT
       const bookingData = {
         startDate: formattedStartDate,
         endDate: formattedEndDate,
@@ -137,21 +150,9 @@ const BookingPage = ({ room }) => {
         price: price.value,
         label: price.label,
       };
-      console.log(bookingData);
-      //console.log(formattedStartDate);
-      //console.log(formattedEndDate);
-      /*try {
-        const response = await axios.post(
-          "http://localhost:5000/api/bookings",
-          bookingData
-        );
-        setSuccessMessage("Booking successful!");
-        setError("");
-      } catch (err) {
-        setError(err.response ? err.response.data.error : "Booking failed");
-        setSuccessMessage("");
-      }*/
+      //console.log(bookingData);
 
+      // PAGTAPOS GUMAWA NG OBJECT IPASA SA RECEIPT COMPONENT YUNG BOOKINGDATA
       navigate("/receipt", { state: bookingData });
     }
   };
@@ -178,6 +179,7 @@ const BookingPage = ({ room }) => {
     fetchRooms();
   }, []);*/
 
+  // FUNCTION PARA MAPALITAN YUNG DATE KAPAG ANG PINILI NG USER 8 OR 12HRS
   const handleDateChange = (dates) => {
     // Allow the user to select multiple dates unless 8 or 12 hours are chosen
     if (price.label === 8 || price.label === 12) {

@@ -17,9 +17,6 @@ const createPayment = async (req, res) => {
     return res.status(400).json({ error: "Missing required metadata fields" });
   }
 
-  if (!amount || !description) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
 
   try {
     // Step 2: Create a checkout session
