@@ -1,17 +1,46 @@
-const User = require('../model/User'); // Adjust the path as necessary
-const jwt = require('jsonwebtoken')
+const User = require("../model/User"); // Adjust the path as necessary
+const nodemailer = require('nodemailer')
+
+// email sender
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'siaa311dash5@gmail.com',
+    pass: 'ukre vhii frzs oylm'
+  }
+})
 
 // Create a new user
 const createUser = async (req, res) => {
-  try {
-    const { role } = req.body; // Expecting role in the request body
-    const user = await User.create({ ...req.body, role }); // Add role to the user
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+  const { firstname, lastname, email, password, contactnumber, age, role } =
+    req.body;
+  const doesEmailExist = await User.findOne({ where: { email } })
+
+  console.log(req.body)
+
+  if (doesEmailExist) {
+    return res.status(400).json({ error: "Email already exist!" })
+  }
+
+  if (
+    !firstname ||
+    !lastname ||
+    !email ||
+    !password ||
+    !contactnumber ||
+    !age ||
+    !role
+  ) {
+    res.status(400).json({ error: "Please fill out all the forms" });
+  } else {
+    try {
+      const user = await User.create(req.body); // Add role to the user
+      res.status(201).json(user);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   }
 };
-
 
 // Get all users
 const getUsers = async (req, res) => {
@@ -29,7 +58,7 @@ const getUser = async (req, res) => {
   try {
     const user = await User.findById(id);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
     res.status(200).json(user);
   } catch (error) {
@@ -43,7 +72,7 @@ const updateUser = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(id, req.body, { new: true });
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
     res.status(200).json(user);
   } catch (error) {
@@ -57,29 +86,34 @@ const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(id);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
-    res.status(200).json({ message: 'User deleted' });
+    res.status(200).json({ message: "User deleted" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 const loginUser = async (req, res) => {
-  const { email, password } = req.body
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email });
 
     if (!user || user.password !== password) {
-      return res.status(400).json({ error: 'Invalid email or password' })
+      return res.status(400).json({ error: "Invalid email or password" });
     }
-    
-    res.status(200).json({ message: 'Login successful', user: { id: user._id, role: user.role } });
+
+    res
+      .status(200)
+      .json({
+        message: "Login successful",
+        user: { id: user._id, role: user.role },
+      });
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 const loginAdmin = async (req, res) => {
   const { email, password } = req.body;
@@ -88,26 +122,25 @@ const loginAdmin = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ error: 'Invalid email or password' });
+      return res.status(400).json({ error: "Invalid email or password" });
     }
 
     if (user.password !== password) {
-      return res.status(400).json({ error: 'Invalid email or password' });
+      return res.status(400).json({ error: "Invalid email or password" });
     }
 
     // Check if the user is an admin
-    if (user.role !== 'admin') {
-      return res.status(403).json({ error: 'Access denied: You do not have admin privileges' });
+    if (user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ error: "Access denied: You do not have admin privileges" });
     }
 
-    res.status(200).json({ message: 'Login successful', user });
+    res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
-
-
 
 module.exports = {
   createUser,
@@ -116,5 +149,5 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
-  loginAdmin
+  loginAdmin,
 };
