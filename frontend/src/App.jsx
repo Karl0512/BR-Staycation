@@ -19,6 +19,9 @@ import Customer from "./components/Customer.jsx";
 import Receipt from "./components/Receipt.jsx";
 import Rooms from "./components/Rooms.jsx";
 import BookingPage from "./components/Book";
+import Profile from "./components/Profile.jsx";
+import BookingHistory from "./components/BookingHistory.jsx";
+import ChangePassword from "./components/ChangePassword.jsx";
 
 export default function App() {
   const location = useLocation();
@@ -43,7 +46,10 @@ export default function App() {
       {/* Show Navbar if not on dashboard-related paths and not on login/signup */}
       {!isDashboardPath &&
         location.pathname !== "/login" &&
-        location.pathname !== "/signup" && <Navbar />}
+        location.pathname !== "/signup" &&
+        location.pathname !== "/profile" &&
+        location.pathname !== "/bookinghistory" &&
+        location.pathname !== "/changepassword" && <Navbar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -54,6 +60,9 @@ export default function App() {
         <Route path="/receipt" element={<Receipt />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/bookinghistory" element={<BookingHistory />} />
+        <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/roommanagement" element={<RoomManagement />} />
         <Route

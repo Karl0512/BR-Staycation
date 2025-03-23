@@ -11,6 +11,8 @@ const housekeepingRoutes = require("./routes/housekeepingRoutes");
 const paymentRoutes = require("./routes/paymentLinkRoutes")
 const bodyParser = require('body-parser');
 const webhook = require("./routes/paymentLinkRoutes")
+const authRoutes = require("./routes/authRoutes")
+const cookieParser = require("cookie-parser");
 
 // Database connection
 const { sequelize } = require("./config/database");
@@ -20,11 +22,13 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: '*', // Allow all origins for testing purposes
+  origin: 'http://localhost:5173', // Allow all origins for testing purposes
+  credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Allow necessary HTTP methods
 }));
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -38,6 +42,7 @@ app.use("/api/rooms", roomsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/housekeeping", housekeepingRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/auth", authRoutes)
 
 
 app.post('/', async (req, res) => {

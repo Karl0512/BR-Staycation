@@ -1,5 +1,6 @@
 const User = require("../model/User"); // Adjust the path as necessary
 const nodemailer = require('nodemailer')
+const jwt = require('jsonwebtoken')
 
 // email sender
 const transporter = nodemailer.createTransport({
@@ -45,7 +46,7 @@ const createUser = async (req, res) => {
 // Get all users
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.findAll();
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -68,17 +69,38 @@ const getUser = async (req, res) => {
 
 // Update a user
 const updateUser = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    // Get the token from cookies (or headers if using Authorization Bearer)
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: "Not authenticated" });
     }
-    res.status(200).json(user);
+
+    // Verify the token
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ error: "Invalid token" });
+      }
+
+      // Extract user ID from the token
+      const userId = decoded.id;
+
+      // Find and update the user
+      const user = await User.findByPk(userId);
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      
+      await user.update(req.body);
+
+      res.status(200).json({ message: "User updated successfully", user });
+    });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
+
 
 // Delete a user
 const deleteUser = async (req, res) => {
@@ -98,7 +120,7 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ where: { email } });
 
     if (!user || user.password !== password) {
       return res.status(400).json({ error: "Invalid email or password" });
@@ -108,39 +130,14 @@ const loginUser = async (req, res) => {
       .status(200)
       .json({
         message: "Login successful",
-        user: { id: user._id, role: user.role },
+        user: { id: user.id, role: user.role },
       });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const loginAdmin = async (req, res) => {
-  const { email, password } = req.body;
 
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(400).json({ error: "Invalid email or password" });
-    }
-
-    if (user.password !== password) {
-      return res.status(400).json({ error: "Invalid email or password" });
-    }
-
-    // Check if the user is an admin
-    if (user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ error: "Access denied: You do not have admin privileges" });
-    }
-
-    res.status(200).json({ message: "Login successful", user });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
 module.exports = {
   createUser,
@@ -149,5 +146,4 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
-  loginAdmin,
 };
