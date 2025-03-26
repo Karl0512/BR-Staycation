@@ -7,7 +7,6 @@ const Booking = require("./model/Booking");
 const userRoutes = require("./routes/userRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const roomsRoutes = require("./routes/roomsRoutes");
-const housekeepingRoutes = require("./routes/housekeepingRoutes");
 const paymentRoutes = require("./routes/paymentLinkRoutes")
 const bodyParser = require('body-parser');
 const webhook = require("./routes/paymentLinkRoutes")
@@ -40,7 +39,6 @@ app.use((req, res, next) => {
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/rooms", roomsRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/housekeeping", housekeepingRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/auth", authRoutes)
 

@@ -11,7 +11,7 @@ const login = async (req, res) => {
         return res.status(400).json({ error: "Invalid email or password" });
       }
     // Generate JWT Token
-    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id, userfname: user.firstname, userlname: user.lastname, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     // Set HTTP-only cookie
     res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
@@ -29,9 +29,10 @@ const checkAuth = (req, res) => {
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) return res.status(403).json({ message: "Invalid token" });
 
-    res.json({ user: decoded });
+    res.json({ decoded });
   });
 };
+
 
 const logout = (req, res) => {
   res.clearCookie("token");

@@ -7,7 +7,7 @@ const PAYMONGO_API_KEY = process.env.PAYMONGO_API_KEY;
 const createPayment = async (req, res) => {
   const { amount, description } = req.body.data.attributes;
 
-  const { startDate, endDate, guests, roomId, time, price } = req.body.data.attributes.metadata;
+  const { startDate, endDate, guests, roomId, time, price, email, name } = req.body.data.attributes.metadata;
   
   if (!amount || !description) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -32,14 +32,16 @@ const createPayment = async (req, res) => {
               {
                 currency: "PHP",
                 amount: amount * 100,
-                name: "bhrenz",
+                name: "Booking for " + name,
                 quantity: 1,
-                description: "booking for staycation",
+                description: "BR Staycation",
               },
             ],
             metadata: {
               startDate,
               endDate,
+              name,
+              email,
               guests,
               roomId,
               time,
