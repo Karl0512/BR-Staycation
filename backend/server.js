@@ -21,7 +21,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow all origins for testing purposes
+  origin: '', // Allow all origins for testing purposes
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Allow necessary HTTP methods
 }));
