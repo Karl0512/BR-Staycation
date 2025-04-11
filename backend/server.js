@@ -21,11 +21,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-<<<<<<< HEAD
-  origin: 'https://br-staycation.vercel.app/', // Allow all origins for testing purposes
-=======
   origin: 'https://br-staycation.vercel.app', // Allow all origins for testing purposes
->>>>>>> 99e1b19f5a541d212e69cd7ef789f2419d146c2d
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'], // Allow necessary HTTP methods
 }));
@@ -96,9 +92,6 @@ app.post('/', async (req, res) => {
           <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
         <div style="max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
           <h2 style="color: #4caf50; text-align: center;">✅ Payment Successful</h2>
-<<<<<<< HEAD
-          <p>Hello <strong>${name}</strong>,</p>
-=======
           <p>Hello <strong>${metadata.name}</strong>,</p>
 >>>>>>> 99e1b19f5a541d212e69cd7ef789f2419d146c2d
           <p>Thank you for booking with <strong>BR Staycation</strong>! Here’s your receipt:</p>
@@ -161,11 +154,9 @@ app.post('/', async (req, res) => {
   try {
     await sequelize.authenticate();
     console.log("Connected to the PostgreSQL database successfully.");
-<<<<<<< HEAD
-    await sequelize.sync({ alter: true}); // Ensures models are synced to the database
-=======
+
     await sequelize.sync({ alter: true }); // Ensures models are synced to the database
->>>>>>> 99e1b19f5a541d212e69cd7ef789f2419d146c2d
+
 
     app.listen(process.env.PORT, '0.0.0.0', () => {
       console.log("Server is running on port", process.env.PORT);
