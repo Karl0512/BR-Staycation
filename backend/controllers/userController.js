@@ -37,6 +37,7 @@ const createUser = async (req, res) => {
     try {
       const user = await User.create(req.body); // Add role to the user
       res.status(201).json(user);
+      console.log("Created")
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -116,28 +117,26 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+
+const statusUpdate = async (req, res) => {
 
   try {
-    const user = await User.findOne({ where: { email } });
+    const { id } = req.params
+    const { status } = req.body
 
-    if (!user || user.password !== password) {
-      return res.status(400).json({ error: "Invalid email or password" });
+    const user = await User.findByPk(id)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Login successful",
-        user: { id: user.id, role: user.role },
-      });
+    await user.update({ status })
+
+    res.json({ message: 'Account deactivated'})
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: 'Server error' })
   }
-};
-
-
+  
+}
 
 module.exports = {
   createUser,
@@ -145,5 +144,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
-  loginUser,
+  statusUpdate
 };

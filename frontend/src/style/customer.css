@@ -1,39 +1,41 @@
-.dashboard-container {
+.account-container {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
     margin-right: 5px;
 }
 
-.dashboard-container li a {
+.account-table li a {
     padding: 10px;
     margin-top: 10px;
     background-color: #c6b5a1;
     border-radius: 30px;
 }
 
-.overlay {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.3);
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
+.account-table{
     display: flex;
-    justify-content: center;
-    
+    flex: 1;
+    max-height: 100vh;
+    gap: 2rem;
+    padding: 20px;
 }
 
-.add-booking-form {
-    width: 50%;
-    height: 100%;
-    background-color: white;
+.account-overview-table {
+    max-height: 50%;
+    overflow-y: auto;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
 }
 
-.add-booking-btn {
-    transition: all 0.5s ease-in-out;
+.account-overview-table td {
+    border: 1px solid #c6b5a1;
 }
-.add-booking-btn:hover {
-    transform: scale(1.1);
-    opacity: 0.8;   
+
+.account-overview-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #c6b5a1;
 }
+

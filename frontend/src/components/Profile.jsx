@@ -12,7 +12,7 @@ export default function Profile() {
   const handleUpdateInfo = async () => {
     try {
       const response = await axios.patch(
-        "http://localhost:5000/api/users/update",
+        `${import.meta.env.VITE_API_URL}/api/users/update`,
         {
           email,
           contactnumber: contactNumber,

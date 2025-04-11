@@ -4,121 +4,64 @@ import axios from "axios";
 import "../style/payment.css";
 
 export default function PaymentInvoices() {
-  const [bookings, setBooking] = useState("");
-  const [selectedBookingId, setSelectedBookingId] = useState("");
+  const [payments, setPayment] = useState([]);
 
   useEffect(() => {
-    const getBookings = async () => {
+    const getPayments = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/bookings");
-        setBooking(response.data);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/payment/`
+        );
+        const paymentsData = response.data.data; // No need to map attributes here as we're accessing the full payment object
+        setPayment(paymentsData);
+        console.log(paymentsData); // Check if payments data is correctly fetched
       } catch (error) {
-        console.error("Error fetching bookings: ", error);
+        console.error("Error fetching payments:", error);
       }
     };
 
-    getBookings();
+    getPayments();
   }, []);
 
-  const rowClick = (bookingId) => {
-    setSelectedBookingId(bookingId === selectedBookingId ? null : bookingId);
-  };
-
-  const markAsPaid = async () => {
-    if (!selectedBookingId) return;
-
-    try {
-      await axios.patch(
-        `http://localhost:5000/api/bookings/${selectedBookingId}`,
-        {
-          status: "paid",
-        }
-      );
-
-      // Update the local state to reflect the paid status
-      setBookings((prevBookings) =>
-        prevBookings.map((booking) =>
-          booking._id === selectedBookingId
-            ? { ...booking, status: "paid" }
-            : booking
-        )
-      );
-
-      // Clear the selected booking after updating
-      setSelectedBookingId(null);
-    } catch (error) {
-      console.error("Error updating payment status: ", error);
-    }
-  };
-
   return (
-    <>
+    <div className="container-payment">
       <SideNav />
-      <div className="dashboard-table">
-        <div style={{ display: "flex", padding: "20px", alignItems: "center" }}>
-          <label style={{ marginRight: "25px" }}>Booking Id to be paid:</label>
-          <input
-            style={{ marginRight: "25px", width: "11.5%" }}
-            type="text"
-            value={selectedBookingId}
-          />
-          <button
-            style={{
-              paddingLeft: "25px",
-              paddingRight: "25px",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              backgroundColor: "#c6b5a1",
-              border: "none",
-              borderRadius: "25px",
-            }}
-            onClick={markAsPaid}
-            disabled={!selectedBookingId}
-            className="mark-paid-button"
-          >
-            paid
-          </button>
-        </div>
-
-        <table className="dashboard-overview-table">
-          <tr>
-            <th>Booking ID</th>
-            <th>Customer Name</th>
-            <th>Room number</th>
-            <th>Check-in date</th>
-            <th>Check-out date</th>
-            <th>payment status</th>
-          </tr>
+      <div className="payment-table">
+        <table className="payment-overview-table">
+          <thead>
+            <tr>
+              <th>Payment ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Amount</th>
+              <th>Fee</th>
+              <th>Net Amount</th>
+            </tr>
+          </thead>
           <tbody>
-            {bookings.length > 0 ? (
-              bookings.map((booking) => (
-                <tr
-                  key={booking._id}
-                  onClick={() => rowClick(booking._id)}
-                  style={{
-                    backgroundColor:
-                      booking._id === selectedBookingId
-                        ? "#c6b5a1"
-                        : "transparent",
-                    cursor: "pointer",
-                  }}
-                >
-                  <td>{booking._id}</td>
-                  <td>{booking.name}</td>
-                  <td>{booking.roomId}</td>
-                  <td>{new Date(booking.startDate).toLocaleDateString()}</td>
-                  <td>{new Date(booking.endDate).toLocaleDateString()}</td>
-                  <td>{booking.status}</td>
+            {payments.length > 0 ? (
+              payments.map((payment) => (
+                <tr key={payment.id}>
+                  {" "}
+                  {/* Using payment.id as the key */}
+                  <td>{payment.id}</td> {/* Displaying the payment id here */}
+                  <td>{payment.attributes.billing.name}</td>
+                  <td>{payment.attributes.billing.email}</td>
+                  <td>{payment.attributes.billing.phone || "N/A"}</td>
+                  <td>{payment.attributes.amount}</td>
+                  <td>{payment.attributes.fee}</td>
+                  <td>{payment.attributes.net_amount}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6">No bookings available</td>
+                <td colSpan="7" className="loader"></td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }

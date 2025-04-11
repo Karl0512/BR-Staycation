@@ -5,7 +5,9 @@ import axios from "axios";
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -15,15 +17,16 @@ export default function Navbar() {
     const checkAuth = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/auth/check-auth",
+          `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
           {
             withCredentials: true,
           }
         );
 
-        setUser(response.data.user);
+        setRole(response.data.decoded.role);
+        setUser(response.data.decoded.userfname);
       } catch (error) {
-        console.log("User not authenticated");
+        console.error("User not authenticated");
       }
     };
 
@@ -32,11 +35,12 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await axios.post(
-      "http://localhost:5000/api/auth/logout",
+      `${import.meta.env.VITE_API_URL}/api/auth/logout`,
       {},
       { withCredentials: true }
     );
     setUser(null);
+    window.location.reload();
   };
 
   return (
@@ -55,7 +59,10 @@ export default function Navbar() {
         <li>
           <Link to="/contact">Contact us</Link>
         </li>
+        {}
       </ul>
+
+      {user ? <h1 style={{ marginRight: "10px" }}> Welcome {user}!</h1> : ""}
       <div className="profile" onClick={toggleDropdown}>
         <img src="/img/profile.svg" alt="" />
         {isDropdownOpen && (

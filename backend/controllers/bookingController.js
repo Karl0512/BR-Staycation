@@ -1,4 +1,6 @@
 const Booking = require("../model/Booking"); // Import the Sequelize model
+const { Sequelize } = require("sequelize")
+const { sequelize } = require("../config/database")
 
 // Create a new booking
 const createBooking = async (req, res) => {
@@ -72,6 +74,51 @@ const deleteBooking = async (req, res) => {
   }
 };
 
+const getBookingsForYear = async (req, res) => {
+  const year = req.query.year || new Date().getFullYear(); // Default to current year if no year provided
+
+  const query = `
+    SELECT "createdAt" 
+    FROM public."Bookings"
+    WHERE EXTRACT(YEAR FROM "createdAt") = :year
+    ORDER BY id ASC
+  `;
+
+  try {
+    const bookings = await sequelize.query(query, {
+      replacements: { year },  // Safe parameter substitution
+      type: Sequelize.QueryTypes.SELECT, // Specify that the query will return rows
+    });
+
+    res.json({ bookings });
+  } catch (error) {
+    console.error("Failed to fetch bookings:", error);
+    res.status(500).json({ error: "Error fetching bookings" });
+  }
+};
+
+const getRoomByBookings = async (req, res) => {
+  const year = req.query.year || new Date().getFullYear()
+
+  const query = `
+  SELECT "createdAt", "roomId"
+  FROM public."Bookings"
+  WHERE EXTRACT(YEAR FROM "createdAt") = :year
+  ORDER BY id ASC`
+
+  try {
+    const bookings = await sequelize.query(query, {
+      replacements: {year},
+      type: Sequelize.QueryTypes.SELECT
+    })
+
+    res.status(200).json({ bookings })
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching bookings" })
+  }
+}
+
+
 // Export all controller functions
 module.exports = {
   createBooking,
@@ -79,4 +126,6 @@ module.exports = {
   getBooking,
   updateBooking,
   deleteBooking,
+  getBookingsForYear,
+  getRoomByBookings
 };

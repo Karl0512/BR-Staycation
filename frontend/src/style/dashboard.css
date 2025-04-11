@@ -1,45 +1,44 @@
-.dashboard-container {
+.table-container {
     display: flex;
-    flex-direction: row;
-    position: relative;
-    margin-left: 350px;
-    font-family: 'poppins', 'sans-serif';
-    font-weight: 500;
+    flex-direction: row; /* Keeps the row layout for side navigation and table */
+    justify-content: flex-start; /* Ensures SideNav stays at the start */
+    align-items: flex-start; /* Align items to the top */
 }
 
 /* Style for the Dashboard content */
-.dashboard-content {
+
+.dashboard-content{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    flex: 1;
+    max-height: 100vh;
     justify-content: space-between;
-    gap: 50px;
+    padding: 20px;
+}
+
+.dashboard-table{
+    max-height: 60%;
+    overflow-y: auto;
     width: 100%;
-    padding: 20px;
 }
 
-.dashboard-table {
-    margin-left: 350px;
-    padding: 20px;
-    font-family: 'poppins', 'sans-serif';
-}
-
-.dashboard-overview-table, .dashboard-overview-table th, .dashboard-overview-table td {
-    border: 3px solid #c6b5a1;
+.dashboard-table th, .dashboard-table td, .dashboard-table table{
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #c6b5a1;
+    text-align: center;
     border-collapse: collapse;
 }
 
-.dashboard-overview-table {
-    width: 100%;
-}
-
-.dashboard-overview-table th {
+.dashboard-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
     background-color: #c6b5a1;
 }
 
-.dashboard-overview-table th, .dashboard-overview-table td {
-    padding: 20px;
+.dashboard-table table{
+    width: 100%;
 }
-
-
 
 

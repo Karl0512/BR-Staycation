@@ -18,7 +18,7 @@ export default function SimpleCalendar() {
       try {
         // Only URL is necessary if startDate and endDate are not parameters
         const response = await axios.get(
-          "http://localhost:5000/api/bookings?roomId=1"
+          `${import.meta.env.VITE_API_URL}/api/bookings?roomId=1`
         );
 
         // Formatting reserved dates based on the expected structure
@@ -44,7 +44,7 @@ export default function SimpleCalendar() {
       try {
         // Only URL is necessary if startDate and endDate are not parameters
         const response = await axios.get(
-          "http://localhost:5000/api/bookings?roomId=2"
+          `${import.meta.env.VITE_API_URL}/api/bookings?roomId=2`
         );
 
         // Formatting reserved dates based on the expected structure
@@ -91,6 +91,7 @@ export default function SimpleCalendar() {
             </h1>
             <Calendar
               className="custom-component"
+              style={{ width: "100%" }}
               selected={selectedRoom2}
               reserved={reservedRoom2}
               range={true}

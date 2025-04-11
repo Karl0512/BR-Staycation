@@ -7,16 +7,22 @@ const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ where: { email } });
+
+    if (user.status === 'deactivated') {
+      return res.status(403).json({ message: 'Account is deactivated'})
+    }
     if (!user || user.password !== password) {
         return res.status(400).json({ error: "Invalid email or password" });
       }
     // Generate JWT Token
     const token = jwt.sign({ id: user.id, userfname: user.firstname, userlname: user.lastname, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
+
     // Set HTTP-only cookie
     res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
 
-    res.json({ message: "Login successful", role: user.role, id: user.id, token: token });
+
+    res.json({ message: "Login successful", role: user.role });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
@@ -35,7 +41,11 @@ const checkAuth = (req, res) => {
 
 
 const logout = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,    // Same as when the cookie was set
+    secure: process.env.NODE_ENV === 'production', // Match the cookie's secure flag
+    sameSite: 'Strict',  // Match sameSite policy
+  });
   res.json({ message: "Logged out" });
 };
 

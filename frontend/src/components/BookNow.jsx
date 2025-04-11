@@ -10,15 +10,15 @@ export default function BookNow() {
     const checkAuth = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/auth/check-auth",
+          `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
           {
             withCredentials: true,
           }
         );
 
-        setUser(response.data.user);
+        setUser(response.data.decoded);
       } catch (error) {
-        console.log("User not authenticated");
+        console.error("User not authenticated");
       }
     };
 

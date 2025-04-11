@@ -26,11 +26,12 @@ const BookingPage = ({ room }) => {
   const [successMessage, setSuccessMessage] = useState("");
   //const userId = localStorage.getItem("token");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [term1Accepted, setTerm1Accepted] = useState(false);
   const [term2Accepted, setTerm2Accepted] = useState(false);
+  const [decodedToken, setDecodedToken] = useState(null);
 
   // Handle opening the modal, ETO YUNG PAG BUKAS NG POPUP
   const handleModalOpen = () => {
@@ -80,7 +81,7 @@ const BookingPage = ({ room }) => {
     const fetchReservedDates = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/bookings?roomId=${room}`
+          `${import.meta.env.VITE_API_URL}/api/bookings?roomId=${room}`
         );
         // I MAP YUNG DATA KUNIN LANG YUNG startDate AT endDate
         const formattedReservedDates = response.data.map((reservation) => ({
@@ -100,22 +101,25 @@ const BookingPage = ({ room }) => {
     //console.log(reserved);
   }, []);
 
-  /*useEffect(() => {
-    const fetchNameById = async () => {
+  useEffect(() => {
+    const fetchToken = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}`
+          `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
+          {
+            withCredentials: true,
+          }
         );
-        setName(response.data.name); // Store the fetched name in state
-        setEmail(response.data.email);
-        console.log(email);
+
+        setDecodedToken(response.data.decoded);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching token: ", error.response?.data?.message);
       }
     };
 
-    fetchNameById();
-  }, []);*/ // Empty dependency array so it runs once when the component mounts
+    fetchToken();
+  }, []);
+  // Empty dependency array so it runs once when the component mounts
 
   // ETO YUNG MANGYAYARI PAG KA PININDOT NG USER BOOK NOW
   const handleBookingSubmit = async (e) => {
@@ -139,12 +143,17 @@ const BookingPage = ({ room }) => {
         .format("YYYY-MM-DD");
 
       // GUMAWA NG OBJECT
+
+      const { userfname, userlname, id, email } = decodedToken;
+      const username = userfname + " " + userlname;
+
       const bookingData = {
+        id,
         startDate: formattedStartDate,
         endDate: formattedEndDate,
         guests,
         roomId: room,
-        name,
+        name: username,
         email,
         time,
         price: price.value,
@@ -270,16 +279,30 @@ const BookingPage = ({ room }) => {
         )}
         {price && (
           <div>
-            <p>
-              Check-in date:{" "}
-              {startDate
-                ? startDate.toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "2-digit",
-                    year: "numeric",
-                  })
-                : "Start date not selected"}{" "}
-              at {time}
+            <p
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
+              {startDate && (
+                <img src="/img/check-icon.svg" width="20" height="20" />
+              )}
+              {startDate ? (
+                `Check-in: ${startDate.toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "2-digit",
+                  year: "numeric",
+                })} at`
+              ) : (
+                <>
+                  <img src="/img/calendar-icon.svg" width="20" height="20" />
+                  <p>Please select a check-in date </p>
+                </>
+              )}
             </p>
             <p>
               Checkout date:{" "}

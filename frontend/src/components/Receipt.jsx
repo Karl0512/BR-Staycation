@@ -1,17 +1,47 @@
 // iimport mga kailangan
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../style/receipt.css";
+import { useNavigate } from "react-router-dom";
 import { parse, format, subHours, addHours } from "date-fns";
 import axios from "axios";
 
 const Receipt = ({ paymentId }) => {
   // kunin yung mga data galing sa booking dalhin sa receipt gamit useLocation
   const location = useLocation();
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const checkIfLoggedIn = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        setToken(response.data.decoded);
+      } catch (error) {
+        console.log("User not authenticated");
+      }
+    };
+
+    checkIfLoggedIn();
+  }, []);
 
   // deconstruct yung object
-  const { startDate, endDate, time, guests, roomId, price, label } =
-    location.state || {};
+  const {
+    startDate,
+    endDate,
+    time,
+    guests,
+    roomId,
+    price,
+    label,
+    name,
+    email,
+  } = location.state || {};
 
   // mag set variable para sa pag track ng status ng payment mag uupdate lang pag nabayaran na
   const [paymentStatus, setPaymentStatus] = useState("pending");
@@ -114,6 +144,8 @@ const Receipt = ({ paymentId }) => {
           metadata: {
             startDate,
             endDate,
+            email,
+            name,
             time,
             guests,
             roomId,
@@ -128,7 +160,7 @@ const Receipt = ({ paymentId }) => {
     // lagyan ng header at content type ay application/json
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/payment/paymentCreate", // Replace with your API endpoint
+        `${import.meta.env.VITE_API_URL}/api/payment/paymentCreate`, // Replace with your API endpoint
         paymentData,
         {
           headers: {
@@ -233,6 +265,8 @@ const Receipt = ({ paymentId }) => {
             {/* kunin yung endtime based sa if else condition kanina */}
             {endTime}
           </p>
+          <p>Name: {name}</p>
+          <p>Email: {email}</p>
           <p>Guest: {guests}</p>
           <p>For: {label} hrs</p>
           <h1>Pricing Breakdown</h1>

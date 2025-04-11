@@ -22,6 +22,7 @@ import BookingPage from "./components/Book";
 import Profile from "./components/Profile.jsx";
 import BookingHistory from "./components/BookingHistory.jsx";
 import ChangePassword from "./components/ChangePassword.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App() {
   const location = useLocation();
@@ -55,24 +56,24 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/rooms" element={<Rooms />} />
-        <Route path="/book" element={<BookingPage />} />
-        <Route path="/receipt" element={<Receipt />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/book" element={<BookingPage />} />
+          <Route path="/receipt" element={<Receipt />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/bookinghistory" element={<BookingHistory />} />
+          <Route path="/changepassword" element={<ChangePassword />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/roommanagement" element={<RoomManagement />} />
+          <Route path="/rooms" element={<Rooms />} />
+          <Route path="/paymentinvoices" element={<PaymentInvoices />} />
+          <Route path="/reportanalytics" element={<ReportAnalytics />} />
+          <Route path="/message" element={<Message />} />
+          <Route path="/customer" element={<Customer />} />
+        </Route>
+
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/bookinghistory" element={<BookingHistory />} />
-        <Route path="/changepassword" element={<ChangePassword />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/roommanagement" element={<RoomManagement />} />
-        <Route
-          path="/housekeepingschedule"
-          element={<HousekeepingSchedule />}
-        />
-        <Route path="/paymentinvoices" element={<PaymentInvoices />} />
-        <Route path="/reportanalytics" element={<ReportAnalytics />} />
-        <Route path="/message" element={<Message />} />
-        <Route path="/customer" element={<Customer />} />
       </Routes>
     </>
   );

@@ -2,6 +2,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import "../style/signup.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import TermsAndConditionSignup from "./TermsAndConditionSignup";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -43,17 +44,20 @@ export default function Signup() {
     const age = getAge(birthdate);
     //console.log(age);
     try {
-      const response = await axios.post("http://localhost:5000/api/users", {
-        firstname,
-        lastname,
-        email,
-        password,
-        contactnumber: contactNumber,
-        age,
-        role: "client",
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/users`,
+        {
+          firstname,
+          lastname,
+          email,
+          password,
+          contactnumber: contactNumber,
+          age,
+          role: "client",
+        }
+      );
       console.log("User account created");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log("Error Message: ", error.message);
     }
@@ -69,123 +73,129 @@ export default function Signup() {
     .split("T")[0];
 
   return (
-    <div className="signup-container">
-      <form onSubmit={handleSubmit} action="" className="signup">
-        <div className="signup-wrapper">
-          <div>
-            <h1>Sign up</h1>
-          </div>
-          <div className="form">
-            <label htmlFor="">Lastname</label>
-            <input
-              type="text"
-              name="lastname"
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
-            />
-            <label htmlFor="">Firstname</label>
-            <input
-              type="text"
-              name="firstname"
-              value={firstname}
-              onChange={(e) => setFirstname(e.target.value)}
-            />
-            <div style={{ position: "relative", display: "inline-block" }}>
-              <label htmlFor="">Email</label>
-              <p
-                style={{
-                  position: "absolute",
-                  top: "0",
-                  left: "35%",
-                  color: "red",
-                }}
-              >
-                {validateEmail}
-              </p>
+    <div className="signup">
+      <div className="signup-header">
+        <img src="/img/brstaycationLogo.jpg" alt="" />
+        <h1> Staycation </h1>
+      </div>
+      <div className="signup-container">
+        <form onSubmit={handleSubmit} action="" className="signup">
+          <div className="signup-wrapper">
+            <div>
+              <h1>Sign up</h1>
             </div>
-
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onBlur={() =>
-                setValidateEmail(email.includes("@") ? "" : "Invalid Email")
-              }
-            />
-            <label htmlFor="">Password</label>
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
+            <div className="form">
+              <label htmlFor="">Lastname</label>
               <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{ width: "100%" }}
+                type="text"
+                name="lastname"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
               />
+              <label htmlFor="">Firstname</label>
+              <input
+                type="text"
+                name="firstname"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+              />
+              <div style={{ position: "relative", display: "inline-block" }}>
+                <label htmlFor="">Email</label>
+                <p
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "35%",
+                    color: "red",
+                  }}
+                >
+                  {validateEmail}
+                </p>
+              </div>
+
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onBlur={() =>
+                  setValidateEmail(email.includes("@") ? "" : "Invalid Email")
+                }
+              />
+              <label htmlFor="">Password</label>
               <div
                 style={{
-                  position: "absolute",
+                  position: "relative",
                   display: "flex",
                   flexDirection: "row",
-                  top: "-20%",
-                  left: "60%",
                 }}
               >
                 <input
-                  type="checkbox"
-                  name=""
-                  onClick={() => setShowPassword(!showPassword)}
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ width: "100%" }}
                 />
-                <label htmlFor="">Show Password</label>
+                <div
+                  style={{
+                    position: "absolute",
+                    display: "flex",
+                    flexDirection: "row",
+                    top: "-5%",
+                    left: "60%",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    name=""
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                  <label htmlFor="">Show Password</label>
+                </div>
               </div>
+
+              <label htmlFor="">Contact Number</label>
+              <input
+                type="text"
+                name="contactNumber"
+                value={contactNumber}
+                onChange={(e) => {
+                  let newValue = e.target.value.replace(/[^0-9]/g, ""); // Allow only numbers
+
+                  // Ensure it starts with "09" and is at most 11 characters
+                  if (newValue.length > 11) {
+                    newValue = newValue.slice(0, 11);
+                  }
+
+                  if (!newValue.startsWith("09")) {
+                    newValue = "09"; // Force start with "09"
+                  }
+
+                  setContactNumber(newValue);
+                }}
+                placeholder="Enter contact number"
+                maxLength={11}
+              />
+              <label htmlFor="">Birthdate</label>
+              <input
+                type="date"
+                name="birthdate"
+                value={birthdate}
+                onChange={(e) => setBirthdate(e.target.value)}
+                max={maxDate}
+              />
             </div>
-
-            <label htmlFor="">Contact Number</label>
-            <input
-              type="text"
-              name="contactNumber"
-              value={contactNumber}
-              onChange={(e) => {
-                let newValue = e.target.value.replace(/[^0-9]/g, ""); // Allow only numbers
-
-                // Ensure it starts with "09" and is at most 11 characters
-                if (newValue.length > 11) {
-                  newValue = newValue.slice(0, 11);
-                }
-
-                if (!newValue.startsWith("09")) {
-                  newValue = "09"; // Force start with "09"
-                }
-
-                setContactNumber(newValue);
-              }}
-              placeholder="Enter contact number"
-              maxLength={11}
-            />
-            <label htmlFor="">Birthdate</label>
-            <input
-              type="date"
-              name="birthdate"
-              value={birthdate}
-              onChange={(e) => setBirthdate(e.target.value)}
-              max={maxDate}
-            />
-            <div className="id-wrapper">
-              <label htmlFor="">Upload Valid Id: </label>
-              <input type="file" name="" id="valid-id" />
-            </div>
+            <TermsAndConditionSignup />
+            <button className="btn-reg" onSubmit={handleSubmit}>
+              Register
+            </button>
           </div>
-          <button className="btn-reg" onSubmit={handleSubmit}>
-            Register
-          </button>
+        </form>
+        <div className="img-container">
+          <img src="/img/br-signup.jpg" alt="" />
         </div>
-      </form>
+      </div>
     </div>
   );
 }

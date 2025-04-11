@@ -1,9 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import "../style/sidenav.css";
+import axios from "axios";
 
 export default function SideNav() {
-  const signOut = () => {
-    localStorage.removeItem("token");
+  const signOut = async () => {
+    await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/auth/logout`,
+      {},
+      { withCredentials: true }
+    );
+    window.location.reload();
   };
   return (
     <div className="side-nav">
@@ -14,7 +20,9 @@ export default function SideNav() {
       <div className="side-nav-link">
         <li>
           <NavLink
-            className={({ isActive }) => (isActive ? "active-link" : "")}
+            className={({ isActive }) =>
+              isActive ? "side-nav-item active-link" : "side-nav-item"
+            }
             to="/dashboard"
           >
             <img src="/img/calendar.svg" alt="" />
@@ -23,25 +31,9 @@ export default function SideNav() {
         </li>
         <li>
           <NavLink
-            className={({ isActive }) => (isActive ? "active-link" : "")}
-            to="/roommanagement"
-          >
-            <img src="/img/management.svg" alt="" />
-            Room Management
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className={({ isActive }) => (isActive ? "active-link" : "")}
-            to="/housekeepingschedule"
-          >
-            <img src="/img/schedule.svg" alt="" />
-            Housekeeping Schedule
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className={({ isActive }) => (isActive ? "active-link" : "")}
+            className={({ isActive }) =>
+              isActive ? "side-nav-item active-link" : "side-nav-item"
+            }
             to="/customer"
           >
             <img src="/img/customer.svg" alt="" />
@@ -50,7 +42,9 @@ export default function SideNav() {
         </li>
         <li>
           <NavLink
-            className={({ isActive }) => (isActive ? "active-link" : "")}
+            className={({ isActive }) =>
+              isActive ? "side-nav-item active-link" : "side-nav-item"
+            }
             to="/paymentinvoices"
           >
             <img src="/img/invoice.svg" alt="" />
@@ -59,29 +53,18 @@ export default function SideNav() {
         </li>
         <li>
           <NavLink
-            className={({ isActive }) => (isActive ? "active-link" : "")}
+            className={({ isActive }) =>
+              isActive ? "side-nav-item active-link" : "side-nav-item"
+            }
             to="/reportAnalytics"
           >
             <img src="/img/analytics.svg" alt="" />
             Report & Analytics
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            className={({ isActive }) => (isActive ? "active-link" : "")}
-            to="/message"
-          >
-            <img src="/img/caht.svg" alt="" />
-            Message Center/Chat
-          </NavLink>
-        </li>
       </div>
       <div>
-        <li>
-          <Link to="/" onClick={signOut}>
-            Sign out
-          </Link>
-        </li>
+        <button onClick={signOut}>Sign out</button>
       </div>
     </div>
   );

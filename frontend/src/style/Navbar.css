@@ -91,3 +91,9 @@ nav {
 
     color: #fff; /* Change text color on hover */
 }
+
+.dropdown button{
+    display: block; 
+    color: #333; 
+    padding: 10px 20px;
+}

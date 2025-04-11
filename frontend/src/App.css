@@ -10,3 +10,8 @@ body {
   background-color: #FAF9F6;
   overflow-x: hidden;
 }
+button {
+  all: unset;
+  display: inline-block;
+  cursor: pointer;
+}

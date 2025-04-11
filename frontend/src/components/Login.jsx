@@ -14,15 +14,14 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
         { email, password },
         { withCredentials: true }
       );
-      console.log(response.data);
-      const userRole = response.data.role;
-      console.log(userRole);
 
-      if (userRole === "admin") {
+      const { role } = response.data;
+
+      if (role === "admin") {
         console.log("Welcome Admin", response.data);
         navigate("/dashboard"); // Redirect to admin dashboard
       } else {
@@ -30,7 +29,7 @@ export default function Login() {
         navigate("/"); // Redirect to regular user dashboard
       }
     } catch (error) {
-      setError(error.response ? error.response.data.error : "Login failed");
+      setError(error.response ? error.response.data.error : "Server Error");
     }
   };
 

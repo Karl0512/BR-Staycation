@@ -1,12 +1,11 @@
 .side-nav {
-    position: absolute;
-    z-index: 1;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     border: 1px solid rgba(0, 0, 0, 0.3);
     padding: 20px;
     font-family: "poppins", "sans-serif";
     background-color: white;
-    width: 300px;
+    width: fit-content;
     height: 100vh;
 }
 
