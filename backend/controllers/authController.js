@@ -35,6 +35,7 @@ const login = async (req, res) => {
 
 const checkAuth = (req, res) => {
   const token = req.cookies.token;
+  console.log(token);
   if (!token) return res.status(401).json({ message: "Not authenticated" });
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
