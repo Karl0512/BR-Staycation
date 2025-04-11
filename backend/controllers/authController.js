@@ -21,9 +21,9 @@ const login = async (req, res) => {
     // Set HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // This is already correct for HTTPS
-      sameSite: "None", // Necessary for cross-origin requests
-      maxAge: 24 * 60 * 60 * 1000 // Optional, but good to set expiration (1 day)
+      secure: true, // 👈 since you're using HTTPS on Render
+      sameSite: "None", // 👈 required for cross-origin requests with credentials
+      maxAge: 24 * 60 * 60 * 1000, // optional but recommended
     });
 
 
