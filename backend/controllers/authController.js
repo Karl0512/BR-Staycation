@@ -50,7 +50,7 @@ const logout = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,    // Same as when the cookie was set
     secure: true, // Match the cookie's secure flag
-    sameSite: 'Strict',  // Match sameSite policy
+    sameSite: 'None',  // Match sameSite policy
   });
   res.json({ message: "Logged out" });
 };
