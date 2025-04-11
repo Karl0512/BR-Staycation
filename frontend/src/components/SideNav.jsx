@@ -1,14 +1,14 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import "../style/sidenav.css";
 import axios from "axios";
 
 export default function SideNav() {
+  const navigate = useNavigate();
   const signOut = async () => {
-    await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/auth/logout`,
-      {},
-      { withCredentials: true }
-    );
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {
+      withCredentials: true,
+    });
+    navigate("/");
     window.location.reload();
   };
   return (
@@ -63,8 +63,8 @@ export default function SideNav() {
           </NavLink>
         </li>
       </div>
-      <div>
-        <button onClick={signOut}>Sign out</button>
+      <div className="btn-sidenav-signout" onClick={signOut}>
+        <button>Sign out</button>
       </div>
     </div>
   );

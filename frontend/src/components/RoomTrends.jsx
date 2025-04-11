@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
-const COLORS = ["#c6b5a1", "#4a4a4a"];
+const COLORS = ["#b5a1c6", "#4a4a4a"];
 
 export default function RoomTrends() {
   const [roomData, setRoomData] = useState([]);
@@ -44,7 +44,15 @@ export default function RoomTrends() {
   }, [year]);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div
+      style={{
+        padding: "2rem",
+        backgroundColor: "#c6b5a1",
+        height: "fit-content",
+        borderRadius: "3rem",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+      }}
+    >
       <h2
         style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "10px" }}
       >
@@ -52,12 +60,11 @@ export default function RoomTrends() {
       </h2>
 
       <div style={{ marginBottom: "15px" }}>
-        <label htmlFor="year">Select Year: </label>
         <select
           id="year"
           value={year}
           onChange={(e) => setYear(e.target.value)}
-          style={{ padding: "5px", fontSize: "14px" }}
+          className="room-trendsyear-select"
         >
           {[2025, 2024, 2023].map((y) => (
             <option key={y} value={y}>

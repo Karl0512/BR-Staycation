@@ -76,7 +76,14 @@ export default function PaymentsByMonth() {
   }, [year]); // Re-fetch data when the year changes
 
   return (
-    <>
+    <div
+      style={{
+        padding: "2rem",
+        backgroundColor: "#c6b5a1",
+        borderRadius: "2rem",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+      }}
+    >
       <h1>Booking per Month on {year}</h1>
       <select name="year" value={year} onChange={handleYearChange}>
         <option value="2025">2025</option>
@@ -92,8 +99,8 @@ export default function PaymentsByMonth() {
           >
             <defs>
               <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#c6b5a1" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#c6b5a1" stopOpacity={0} />
+                <stop offset="5%" stopColor="#4a4a4a" stopOpacity={0.9} />
+                <stop offset="95%" stopColor="#4a4a4a" stopOpacity={0.1} />
               </linearGradient>
             </defs>
             <XAxis dataKey="month" />
@@ -113,6 +120,6 @@ export default function PaymentsByMonth() {
           </AreaChart>
         </ResponsiveContainer>
       </div>
-    </>
+    </div>
   );
 }

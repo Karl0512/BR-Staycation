@@ -7,6 +7,7 @@ import RoomGallery from "./RoomGallery";
 import { motion } from "framer-motion";
 import SlidingImage from "./SlidingImage";
 import StackImage from "./StackImage";
+import Footer from "./Footer";
 
 export default function Home() {
   const location = useLocation();

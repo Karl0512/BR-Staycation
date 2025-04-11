@@ -1,0 +1,97 @@
+/* Gallery grid */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 2fr));
+    gap: 16px;
+    padding: 16px;
+}
+
+.gallery-item {
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gallery-item:hover {
+    transform: scale(1.2);
+}
+
+/* Lightbox overlay */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    flex-direction: column;
+    color: white;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 80%;
+    margin: 16px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 16px; /* Position from the top */
+    right: 16px; /* Position from the right */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 3rem; /* Size of the 'X' button */
+    cursor: pointer;
+    padding: 8px; /* Optional padding for click area */
+    z-index: 1001; /* Ensure it stays on top of everything */
+    transition: transform 0.2s ease-in-out;
+}
+
+.close-btn:hover {
+    transform: scale(1.1); /* Slight zoom effect when hovering */
+}
+
+/* Navigation buttons */
+.prev-btn,
+.next-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 16px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1001;
+}
+
+.prev-btn {
+    left: 16px;
+}
+
+.next-btn {
+    right: 16px;
+}
+
+/* Disable button when not applicable */
+button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}

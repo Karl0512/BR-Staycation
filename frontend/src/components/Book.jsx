@@ -32,6 +32,7 @@ const BookingPage = ({ room }) => {
   const [term1Accepted, setTerm1Accepted] = useState(false);
   const [term2Accepted, setTerm2Accepted] = useState(false);
   const [decodedToken, setDecodedToken] = useState(null);
+  const [totalPrice, setTotalPrice] = useState("");
 
   // Handle opening the modal, ETO YUNG PAG BUKAS NG POPUP
   const handleModalOpen = () => {
@@ -74,6 +75,31 @@ const BookingPage = ({ room }) => {
     { label: 12, value: "1200" },
     { label: 22, value: "1700" },
   ];
+
+  useEffect(() => {
+    if (startDate && endDate && price.label === 22) {
+      const diffInDays = moment(endDate).diff(moment(startDate), "days") + 1;
+
+      let calculatedPrice =
+        diffInDays > 1 ? diffInDays * parseInt(price.value) : price.value;
+
+      // Add ₱300 per extra guest (if guests > 2)
+      if (guests > 2) {
+        calculatedPrice += (guests - 2) * 300;
+      }
+
+      setTotalPrice(calculatedPrice);
+    } else if (price.value) {
+      let calculatedPrice = parseInt(price.value);
+
+      // Add ₱300 per extra guest (if guests > 2)
+      if (guests > 2) {
+        calculatedPrice += (guests - 2) * 300;
+      }
+
+      setTotalPrice(calculatedPrice);
+    }
+  }, [startDate, endDate, price, guests]);
 
   // KUNIN YUNG MGA BOOKED DATES GALING SA DATABASE ILAGAY SA CALENDAR
   useEffect(() => {
@@ -134,6 +160,8 @@ const BookingPage = ({ room }) => {
       // PAG KA WALANG LAMAN ISA MAG SEND NG ERROR NA I FILL OUT LAHAT
       setSuccessMessage("fill out all the forms!");
     } else {
+      console.log(startDate);
+      console.log(endDate);
       // KUNG WALA NAMANG KULANG I FORMAT YUNG STARTDATE AT ENDDATE OBJECT PA STRING
       const formattedStartDate = moment(startDate)
         .tz("Asia/Singapore")
@@ -156,7 +184,8 @@ const BookingPage = ({ room }) => {
         name: username,
         email,
         time,
-        price: price.value,
+        price: totalPrice,
+        rate: price.value,
         label: price.label,
       };
       //console.log(bookingData);
@@ -266,13 +295,14 @@ const BookingPage = ({ room }) => {
               <label className="label-guest">Guest</label>
               <select
                 value={guests}
-                onChange={(e) => setGuests(e.target.value)}
+                onChange={(e) => setGuests(parseInt(e.target.value))}
               >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                <option value={1}>1 Guest</option>
+                <option value={2}>2 Guests</option>
+                <option value={3}>3 Guests</option>
+                <option value={4}>4 Guests</option>
+                <option value={5}>5 Guests</option>
+                {/* Add more if needed */}
               </select>
             </div>
           </div>
@@ -299,12 +329,74 @@ const BookingPage = ({ room }) => {
                 })} at`
               ) : (
                 <>
-                  <img src="/img/calendar-icon.svg" width="20" height="20" />
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 22C12 22 4 14.5 4 9.5C4 5.36 7.36 2 11.5 2C15.64 2 19 5.36 19 9.5C19 14.5 12 22 12 22Z"
+                      fill="#52c41a"
+                    />
+
+                    <circle cx="12" cy="10" r="3" fill="white" />
+
+                    <path
+                      d="M11 10.8L9.6 9.4L8.5 10.5L11 13L15.5 8.5L14.4 7.4L11 10.8Z"
+                      fill="#52c41a"
+                    />
+                  </svg>
+
                   <p>Please select a check-in date </p>
                 </>
               )}
             </p>
             <p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <rect
+                  x="3"
+                  y="4"
+                  width="18"
+                  height="16"
+                  rx="2"
+                  ry="2"
+                  fill="#FF4D4F"
+                />
+                <path
+                  d="M7 2V5"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M17 2V5"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M3 8H21"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+
+                <path
+                  d="M9 13L11 15L15 11"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
               Checkout date:{" "}
               {endDate
                 ? endDate.toLocaleDateString("en-US", {
@@ -316,7 +408,7 @@ const BookingPage = ({ room }) => {
             </p>
 
             <p>Guest: {guests}</p>
-            <p>Price: {price.value}</p>
+            <p>Price: {totalPrice}</p>
             <div className="terms">
               <input
                 type="checkbox"

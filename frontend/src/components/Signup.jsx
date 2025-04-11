@@ -13,6 +13,7 @@ export default function Signup() {
   const [birthdate, setBirthdate] = useState("");
   const [validateEmail, setValidateEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const navigate = useNavigate();
 
   function getAge(birthdate) {
@@ -186,8 +187,12 @@ export default function Signup() {
                 max={maxDate}
               />
             </div>
-            <TermsAndConditionSignup />
-            <button className="btn-reg" onSubmit={handleSubmit}>
+            <TermsAndConditionSignup setTerms={setIsTermsAccepted} />
+            <button
+              className="btn-reg"
+              disabled={!isTermsAccepted}
+              onSubmit={handleSubmit}
+            >
               Register
             </button>
           </div>

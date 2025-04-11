@@ -12,6 +12,10 @@ const Booking = sequelize.define('Booking', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   startDate: {
     type: DataTypes.STRING,
     allowNull: false,

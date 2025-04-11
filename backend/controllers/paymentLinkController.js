@@ -185,9 +185,12 @@ const getPaymentsForYear = async (req, res) => {
       const filteredPayments = payments.map(payment => {
         const createdAt = payment.attributes.created_at;
         const formattedCreatedAt = new Date(createdAt * 1000).toISOString(); // Convert to ISO string
+        const amountInCents = payment.attributes.amount;
+        const amount = Math.floor(amountInCents / 100); // Convert from cents to the main unit (e.g., 1700000 -> 1700.00)
+
         return {
           created_at: formattedCreatedAt,
-          amount: payment.attributes.amount,
+          amount: amount,
         };
       });
 

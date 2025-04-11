@@ -2,6 +2,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "../style/receipt.css";
+import "../style/sidenav.css";
 import { useNavigate } from "react-router-dom";
 import { parse, format, subHours, addHours } from "date-fns";
 import axios from "axios";
@@ -41,7 +42,10 @@ const Receipt = ({ paymentId }) => {
     label,
     name,
     email,
+    rate,
   } = location.state || {};
+
+  let guestFee = guests > 2 ? 300 * (guests - 2) : 0;
 
   // mag set variable para sa pag track ng status ng payment mag uupdate lang pag nabayaran na
   const [paymentStatus, setPaymentStatus] = useState("pending");
@@ -135,10 +139,16 @@ const Receipt = ({ paymentId }) => {
   const handeToPayment = async () => {
     // mag create ng object pangalan ay paymentData
     // same siya sa structure ng object na hinihingi ni paymongo
+
+    const downpayment =
+      parseInt(guestFee) < 0
+        ? parseInt(price) - parseInt(price) * 0.5
+        : (parseInt(guestFee) + parseInt(price)) * 0.5;
+
     const paymentData = {
       data: {
         attributes: {
-          amount: price, // Amount in cents (10000 = 100.00 PHP)
+          amount: downpayment, // Amount in cents (10000 = 100.00 PHP)
           description: "Booking for Staycation",
           payment_method_allowed: ["gcash"],
           metadata: {
@@ -233,11 +243,22 @@ const Receipt = ({ paymentId }) => {
           </div>
         </div>
         <div className="payment-summary">
-          <img src="./img/brstaycationLogo.jpg" id="br-logo" />
-          <h1>Your Booking Summary</h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img src="./img/brstaycationLogo.jpg" id="br-logo" />
+            <strong style={{ fontSize: "3rem" }}>Staycation</strong>
+          </div>
+
+          <h1 style={{ textAlign: "start" }}>Booking Details</h1>
 
           {/* ilagay sa html yung mga data para makita ng user ang kanilang input from booking */}
-          <p>
+          <p style={{ color: "green" }}>
             Check in:{" "}
             {/* gawin string yung date na object para maintindihan ng user */}
             {updatedStartDateObject.toLocaleDateString("en-US", {
@@ -255,7 +276,7 @@ const Receipt = ({ paymentId }) => {
           {/* same lang sa startdate gawin string din yung enddate na 
               object para maintindihan ng user 
           */}
-          <p>
+          <p style={{ color: "#ff4d4f" }}>
             Check out:{" "}
             {endDateObject?.toLocaleDateString("en-US", {
               year: "numeric",
@@ -269,17 +290,38 @@ const Receipt = ({ paymentId }) => {
           <p>Email: {email}</p>
           <p>Guest: {guests}</p>
           <p>For: {label} hrs</p>
-          <h1>Pricing Breakdown</h1>
+          <h1 style={{ textAlign: "start" }}>Pricing Breakdown</h1>
           <p>
-            Rate: {label} hrs for {price}
+            Rate: {label} hrs for ₱{rate}
           </p>
           {/* i calculate yung price */}
-          <p> {days > 1 ? calculatePrice(price, days) : ""}</p>
+          <p>
+            {"₱ "}
+            Guest {"(₱ 300 for each additional guest beyond 2)"}:{"₱ "}
+            {guests > 2 ? (guests - 2) * 300 : 0}{" "}
+          </p>
 
           {/* i calculate yung total */}
-          <p>Total: {guests > 2 ? calculateTotal(price, days, guests) : ""} </p>
+          <p>
+            Total:{"₱ "}
+            {guestFee < 0 ? price : parseInt(price) + parseInt(guestFee)}{" "}
+          </p>
+          <p>
+            Downpayment:{"₱ "}
+            {parseInt(guestFee) < 0
+              ? parseInt(price) - parseInt(price) * 0.5
+              : (parseInt(guestFee) + parseInt(price)) * 0.5}{" "}
+          </p>
 
-          <button onClick={handeToPayment}>Pay</button>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <button
+              className="btn-sidenav-signout"
+              style={{ width: "50%" }}
+              onClick={handeToPayment}
+            >
+              Pay
+            </button>
+          </div>
         </div>
       </div>
     </>

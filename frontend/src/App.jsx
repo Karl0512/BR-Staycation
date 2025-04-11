@@ -23,6 +23,7 @@ import Profile from "./components/Profile.jsx";
 import BookingHistory from "./components/BookingHistory.jsx";
 import ChangePassword from "./components/ChangePassword.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Footer from "./components/Footer.jsx";
 
 export default function App() {
   const location = useLocation();
@@ -47,10 +48,7 @@ export default function App() {
       {/* Show Navbar if not on dashboard-related paths and not on login/signup */}
       {!isDashboardPath &&
         location.pathname !== "/login" &&
-        location.pathname !== "/signup" &&
-        location.pathname !== "/profile" &&
-        location.pathname !== "/bookinghistory" &&
-        location.pathname !== "/changepassword" && <Navbar />}
+        location.pathname !== "/signup" && <Navbar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -75,6 +73,10 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+
+      {!isDashboardPath &&
+        location.pathname !== "/login" &&
+        location.pathname !== "/signup" && <Footer />}
     </>
   );
 }

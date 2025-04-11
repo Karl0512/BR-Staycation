@@ -37,18 +37,41 @@ export default function TotalRevenue() {
     setYear(e.target.value);
   };
   return (
-    <>
-      <select name="year" value={year} onChange={handleYearChange}>
-        <option value="2025">2025</option>
-        <option value="2024">2024</option>
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
-      </select>
+    <div
+      style={{
+        padding: "2rem",
+        backgroundColor: "#c6b5a1",
+        height: "fit-content",
+        borderRadius: "3rem",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          gap: "2rem",
+        }}
+      >
+        <h1>Total Revenue on {year}</h1>
+        <select
+          name="year"
+          value={year}
+          onChange={handleYearChange}
+          className="year-select"
+        >
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+        </select>
+      </div>
 
-      <h1>Total Revenue on {year}</h1>
-      <h2>{yearRevenue}</h2>
+      <h2 style={{ color: "#28a745" }}>₱ {yearRevenue}</h2>
+      <br></br>
       <h2>Paymongo Fee:</h2>
-      <h2>{fee}</h2>
-    </>
+      <h2 style={{ color: "#dc3545" }}>- {fee}</h2>
+    </div>
   );
 }

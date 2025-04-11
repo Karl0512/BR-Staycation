@@ -118,6 +118,27 @@ const getRoomByBookings = async (req, res) => {
   }
 }
 
+const getBookingByEmail = async (req, res) => {
+  const email = req.query.email || new Date().getFullYear()
+
+  const query = `
+  SELECT *
+  FROM public."Bookings"
+  WHERE "email" = :email
+  ORDER BY id ASC`
+
+  try {
+    const bookings = await sequelize.query(query, {
+      replacements: {email},
+      type: Sequelize.QueryTypes.SELECT
+    })
+
+    res.status(200).json({ bookings })
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching bookings" })
+  }
+}
+
 
 // Export all controller functions
 module.exports = {
@@ -127,5 +148,6 @@ module.exports = {
   updateBooking,
   deleteBooking,
   getBookingsForYear,
-  getRoomByBookings
+  getRoomByBookings,
+  getBookingByEmail
 };

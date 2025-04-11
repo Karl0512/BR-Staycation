@@ -97,3 +97,17 @@ nav {
     color: #333; 
     padding: 10px 20px;
 }
+
+.btn-save{
+    background-color: #c6b5a1;
+    padding: 1.5rem;
+    border-radius: 2rem;
+    width: 100px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-save:hover{
+    transform: scale(1.1);
+}

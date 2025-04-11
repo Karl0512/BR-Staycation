@@ -1,0 +1,43 @@
+.reports-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.reports-content {
+    flex: 1;
+    padding: 2rem;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+.analytics{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.year-select{
+    width: 100px;
+    text-align: center;
+    border-radius: 1.5rem;
+    box-sizing: unset;
+    background-color: #4a4a4a;
+    color: white
+}
+
+.room-trendsyear-select {
+    width: 100px;
+    text-align: center;
+    border-radius: 1.5rem;
+    height: 50px;
+    color: white;
+    background-color: #4a4a4a;
+}
