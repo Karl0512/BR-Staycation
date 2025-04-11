@@ -67,6 +67,7 @@ app.post('/', async (req, res) => {
       const booking = await Booking.create({
         name: metadata.name,
         roomId: metadata.roomId,
+        email: metadata.email,
         startDate: metadata.startDate,
         endDate: metadata.endDate,
         price: metadata.price,
@@ -93,7 +94,6 @@ app.post('/', async (req, res) => {
         <div style="max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
           <h2 style="color: #4caf50; text-align: center;">✅ Payment Successful</h2>
           <p>Hello <strong>${metadata.name}</strong>,</p>
->>>>>>> 99e1b19f5a541d212e69cd7ef789f2419d146c2d
           <p>Thank you for booking with <strong>BR Staycation</strong>! Here’s your receipt:</p>
 
           <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
