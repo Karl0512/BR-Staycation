@@ -92,7 +92,7 @@ app.post('/', async (req, res) => {
           <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
         <div style="max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
           <h2 style="color: #4caf50; text-align: center;">✅ Payment Successful</h2>
-          <p>Hello <strong>${name}</strong>,</p>
+          <p>Hello <strong>${metadata.name}</strong>,</p>
           <p>Thank you for booking with <strong>BR Staycation</strong>! Here’s your receipt:</p>
 
           <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
