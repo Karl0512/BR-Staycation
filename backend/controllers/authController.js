@@ -49,7 +49,7 @@ const checkAuth = (req, res) => {
 const logout = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,    // Same as when the cookie was set
-    secure: process.env.NODE_ENV === 'production', // Match the cookie's secure flag
+    secure: true, // Match the cookie's secure flag
     sameSite: 'Strict',  // Match sameSite policy
   });
   res.json({ message: "Logged out" });
