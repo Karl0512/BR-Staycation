@@ -95,7 +95,7 @@ app.post('/', async (req, res) => {
   try {
     await sequelize.authenticate();
     console.log("Connected to the PostgreSQL database successfully.");
-    await sequelize.sync(); // Ensures models are synced to the database
+    await sequelize.sync({ alter: true }); // Ensures models are synced to the database
 
     app.listen(process.env.PORT, '0.0.0.0', () => {
       console.log("Server is running on port", process.env.PORT);
