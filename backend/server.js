@@ -71,7 +71,6 @@ app.post('/', async (req, res) => {
         endDate: metadata.endDate,
         price: metadata.price,
         time: metadata.time,
-        roomId: metadata.roomId,
         guests: metadata.guests,
         status: 'paid',
       });
@@ -80,8 +79,8 @@ app.post('/', async (req, res) => {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'siaa311dash5@gmail.com',
-          pass: 'ukre vhii frzs oylm'
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
         }
       })
 
@@ -90,17 +89,45 @@ app.post('/', async (req, res) => {
         to: metadata.email,
         subject: "Booking Confirmation - BR Staycation",
         html: `
-          <h3>Thank you for your booking, ${metadata.name}!</h3>
-          <p>Here are your booking details:</p>
-          <ul>
-            <li><strong>Room ID:</strong> ${metadata.roomId}</li>
-            <li><strong>Start Date:</strong> ${metadata.startDate}</li>
-            <li><strong>End Date:</strong> ${metadata.endDate}</li>
-            <li><strong>Time:</strong> ${metadata.time}</li>
-            <li><strong>Guests:</strong> ${metadata.guests}</li>
-            <li><strong>Price Paid:</strong> ₱${metadata.price}</li>
-          </ul>
-          <p>We look forward to hosting you!</p>
+          <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+        <div style="max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+          <h2 style="color: #4caf50; text-align: center;">✅ Payment Successful</h2>
+          <p>Hello <strong>${name}</strong>,</p>
+          <p>Thank you for booking with <strong>BR Staycation</strong>! Here’s your receipt:</p>
+
+          <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #ddd;"><strong>Room</strong></td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${metadata.roomId}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #ddd;"><strong>Check-in</strong></td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${metadata.startDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #ddd;"><strong>Check-out</strong></td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${metadata.endDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #ddd;"><strong>Time</strong></td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${metadata.time}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #ddd;"><strong>Guests</strong></td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${metadata.guests}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #ddd;"><strong>Total</strong></td>
+              <td style="padding: 8px; border: 1px solid #ddd;">₱${metadata.price}</td>
+            </tr>
+          </table>
+
+          <p style="margin-top: 20px;">If you have any questions, just reply to this email. We’re happy to help!</p>
+
+          <p style="margin-top: 20px;">Enjoy your stay! 🏖<br/>— BR Staycation</p>
+        </div>
+      </div>
+
         `,
       };
 
