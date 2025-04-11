@@ -19,7 +19,12 @@ const login = async (req, res) => {
 
 
     // Set HTTP-only cookie
-    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // 👈 since you're using HTTPS on Render
+      sameSite: "None", // 👈 required for cross-origin requests with credentials
+      maxAge: 24 * 60 * 60 * 1000, // optional but recommended
+    });
 
 
     res.json({ message: "Login successful", role: user.role });
@@ -30,6 +35,7 @@ const login = async (req, res) => {
 
 const checkAuth = (req, res) => {
   const token = req.cookies.token;
+  console.log(token);
   if (!token) return res.status(401).json({ message: "Not authenticated" });
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
@@ -43,8 +49,8 @@ const checkAuth = (req, res) => {
 const logout = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,    // Same as when the cookie was set
-    secure: process.env.NODE_ENV === 'production', // Match the cookie's secure flag
-    sameSite: 'Strict',  // Match sameSite policy
+    secure: true, // Match the cookie's secure flag
+    sameSite: 'None',  // Match sameSite policy
   });
   res.json({ message: "Logged out" });
 };
