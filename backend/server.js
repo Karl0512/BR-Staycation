@@ -76,6 +76,37 @@ app.post('/', async (req, res) => {
         status: 'paid',
       });
 
+      // Send email receipt
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'siaa311dash5@gmail.com',
+          pass: 'ukre vhii frzs oylm'
+        }
+      })
+
+      const mailOptions = {
+        from: '"BR Staycation" <noreply@brstaycation.com>',
+        to: metadata.email,
+        subject: "Booking Confirmation - BR Staycation",
+        html: `
+          <h3>Thank you for your booking, ${metadata.name}!</h3>
+          <p>Here are your booking details:</p>
+          <ul>
+            <li><strong>Room ID:</strong> ${metadata.roomId}</li>
+            <li><strong>Start Date:</strong> ${metadata.startDate}</li>
+            <li><strong>End Date:</strong> ${metadata.endDate}</li>
+            <li><strong>Time:</strong> ${metadata.time}</li>
+            <li><strong>Guests:</strong> ${metadata.guests}</li>
+            <li><strong>Price Paid:</strong> ₱${metadata.price}</li>
+          </ul>
+          <p>We look forward to hosting you!</p>
+        `,
+      };
+
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email sent:', info.messageId);
+
       console.log('Booking successfully created for:', metadata);
     } catch (error) {
       console.error('Error creating booking:', error.message);
