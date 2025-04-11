@@ -21,7 +21,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://br-staycation-frontend.onrender.com', // Allow all origins for testing purposes
+  origin: true, // Allow all origins for testing purposes
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'], // Allow necessary HTTP methods
 }));
