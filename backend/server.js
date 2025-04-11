@@ -21,7 +21,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://br-staycation-frontend.onrender.com', 'https://br-staycation-fqbsj9zxq-karl0512s-projects.vercel.app', // Allow all origins for testing purposes
+  origin: ['https://br-staycation-frontend.onrender.com', 'https://br-staycation-fqbsj9zxq-karl0512s-projects.vercel.app'], // Allow all origins for testing purposes
   credentials: true,
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'], // Allow necessary HTTP methods
 }));
