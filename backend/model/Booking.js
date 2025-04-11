@@ -33,7 +33,7 @@ const Booking = sequelize.define('Booking', {
     allowNull: false,
     validate: {
       min: 1,
-      max: 2,
+      max: 5,
     },
   },
   status: {
